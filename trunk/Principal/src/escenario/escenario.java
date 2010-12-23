@@ -1,6 +1,8 @@
 
 package escenario;
 
+import java.awt.event.KeyEvent;
+import jugadores.*;
 import java.awt.Graphics;
 import java.util.Random;
 
@@ -24,10 +26,11 @@ public class escenario {
     private pasto grass[];
     private aguila eagle;
     private Random random;
-
+    private Player1 jugador1;
     public escenario(){
         eagle = new aguila();
         random = new Random();
+        jugador1 = new Player1();
         escribirMatrizInicial();
         generarEscenarioAleatorio();
         cuentoElementos();
@@ -82,8 +85,6 @@ public class escenario {
         }
     }
 
-
-
     public void cuentoElementos(){
         int j;
         for( int i=0 ; i<28 ; i=i+1 ){
@@ -122,7 +123,7 @@ public class escenario {
             water[i] = new agua();
     }
 
-    public void dibujar(Graphics g){
+    public void dibujarInicio(Graphics g){
 
     int j, ac = 0, l = 0, p = 0, a = 0;
 
@@ -148,6 +149,17 @@ public class escenario {
         j=0;
     }
     eagle.dibujar(g);
+    jugador1.dibujar(g, jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY());
     }
 
+    public void keyPressed(KeyEvent e) {
+        jugador1.keyPressed(e);
+    }
+
+    public void keyReleased(KeyEvent e) {
+        jugador1.keyReleased(e);
+    }
+    
+    public void keyTyped(KeyEvent e) {
+    }
 }
