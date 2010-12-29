@@ -7,13 +7,13 @@ import java.awt.Graphics;
 import java.util.Random;
 
 public class escenario {
-    private final int ACERO = 0;
-    private final int LADRILLO = 1;
-    private final int PASTO = 2;
-    private final int AGUA = 3;
-    private final int AGUILA = 4;
-    private final int NADA = 5;
-    private final int INTOCABLES = 6;
+    private final int ACERO = 1;
+    private final int LADRILLO = 2;
+    private final int PASTO = 3;
+    private final int AGUA = 4;
+    private final int AGUILA = 5;
+    private final int NADA = 6;
+    private final int INTOCABLES = 7;
 
     private int aceros;
     private int ladrillos;
@@ -27,6 +27,8 @@ public class escenario {
     private aguila eagle;
     private Random random;
     private Player1 jugador1;
+    private colisiones monitor;
+    
     public escenario(){
         eagle = new aguila();
         random = new Random();
@@ -35,9 +37,12 @@ public class escenario {
         generarEscenarioAleatorio();
         cuentoElementos();
         creoElementos();
+        setPosiciones();
+        monitor = new colisiones(this.brick,this.steel,this.water);
+
     }
 
-    public void escribirMatrizInicial(){
+    public final void escribirMatrizInicial(){
         matriz = new int[][]
         {{INTOCABLES,INTOCABLES,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,INTOCABLES,INTOCABLES,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,INTOCABLES,INTOCABLES},
          {INTOCABLES,INTOCABLES,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,INTOCABLES,INTOCABLES,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,INTOCABLES,INTOCABLES},
@@ -63,17 +68,17 @@ public class escenario {
          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,INTOCABLES,INTOCABLES,1,1,4,4,1,1,INTOCABLES,INTOCABLES,0,0,0,0,0,0,0,0,0,0,0,0,0},
-         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,INTOCABLES,INTOCABLES,1,1,4,4,1,1,INTOCABLES,INTOCABLES,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,INTOCABLES,INTOCABLES,2,2,4,4,2,2,INTOCABLES,INTOCABLES,0,0,0,0,0,0,0,0,0,0,0,0,0},
+         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,INTOCABLES,INTOCABLES,2,2,4,4,2,2,INTOCABLES,INTOCABLES,0,0,0,0,0,0,0,0,0,0,0,0,0}};
     }
 
-    public void generarEscenarioAleatorio(){
+    public final void generarEscenarioAleatorio(){
         int j, aux;
         for( int i=0 ; i<28 ; i=i+2 ){
             for( j=0 ; j<36 ; j=j+2 ){
-                aux = (int) (Math.random()*5+1);
+                aux = (int) (Math.random()*6+1);
                 if(matriz[i][j]== 0){
                     matriz[i][j]= aux;
                     matriz[i+1][j]= aux;
@@ -85,11 +90,11 @@ public class escenario {
         }
     }
 
-    public void cuentoElementos(){
+    public final void cuentoElementos(){
         int j;
         for( int i=0 ; i<28 ; i=i+1 ){
             for( j=0 ; j<36 ; j=j+1 ){
-                if( matriz[i][j] == 0 ){
+                if( matriz[i][j] == ACERO ){
                     aceros = aceros+1;
                 }
                 if( matriz[i][j]==LADRILLO ){
@@ -106,27 +111,61 @@ public class escenario {
         }
     }
 
-    public void creoElementos(){
+    public final void creoElementos(){
         
         steel = new acero[aceros];
         brick = new ladrillo[ladrillos];
         grass = new pasto[pastos];
         water = new agua[aguas];
         
-        for(int i = 0; i<aceros ; i=i+1)
+        for(int i = 0; i<aceros ; i=i+1){
             steel[i]=new acero(i);
-        for(int i=0; i<ladrillos; i=i+1)
+            steel[i].setId(i);
+        }
+        for(int i=0; i<ladrillos; i=i+1){
             brick[i]= new ladrillo(i);
-        for(int i=0; i<pastos; i++)
-            grass[i]= new pasto();
-        for(int i=0; i<aguas; i++)
+            brick[i].setId(i);
+        }
+        for(int i=0; i<pastos; i++){
+            grass[i] = new pasto();
+        }
+        for(int i=0; i<aguas; i++){
             water[i] = new agua();
+        }
+    }
+
+    public final void setPosiciones(){
+        int j, ace = 0, l = 0, p = 0, a = 0;
+
+        for( int i=0 ; i<28 ; i=i+1 ){
+            for( j=0 ; j<36 ; j=j+1 ){
+                if( matriz[i][j] == ACERO ){
+                    steel[ace].setPosX(j*20);
+                    steel[ace].setPosY(i*20);
+                    ace = ace + 1;
+                }
+                if( matriz[i][j]==LADRILLO ){
+                    brick[l].setPosX(j*20);
+                    brick[l].setPosY(i*20);
+                    l = l+1;
+                }
+                if( matriz[i][j]==AGUA ){
+                    aguas = aguas+1;
+                    water[a].setPosX(j*20);
+                    water[a].setPosY(i*20);
+                    a = a+1;
+                }
+            }
+            j = 0;
+        }
     }
 
     public void dibujarInicio(Graphics g){
 
     int j, ac = 0, l = 0, p = 0, a = 0;
 
+    jugador1.dibujar(g, jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY());
+    
     for( int i=0 ; i<28 ; i=i+1 ){
         for( j=0 ; j<36 ; j=j+1 ){
             if( matriz[i][j]==ACERO ){
@@ -134,7 +173,7 @@ public class escenario {
                 ac = ac+1;
             }
             if( matriz[i][j]==LADRILLO ){
-                brick[p].dibujar(g, j*20, i*20);
+                brick[l].dibujar(g, j*20, i*20);
                 l = l+1;
             }
             if( matriz[i][j]==PASTO ){
@@ -147,17 +186,34 @@ public class escenario {
             }
         }
         j=0;
-    }
+    }    
     eagle.dibujar(g);
-    jugador1.dibujar(g, jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY());
+    
     }
 
-    public void keyPressed(KeyEvent e) {
-        jugador1.keyPressed(e);
+    public void keyPressed(KeyEvent e){
+        if(!monitor.hayColisionConLadrillo(jugador1.getTanque().getPosX(),jugador1.getTanque().getPosY(),jugador1.getTanque().getAncho(),jugador1.getTanque().getAlto())&&
+                !monitor.hayColisionConAgua(jugador1.getTanque().getPosX(),jugador1.getTanque().getPosY(),jugador1.getTanque().getAncho(),jugador1.getTanque().getAlto())&&
+                    !monitor.hayColisionConAcero(jugador1.getTanque().getPosX(),jugador1.getTanque().getPosY(),jugador1.getTanque().getAncho(),jugador1.getTanque().getAlto())){
+            jugador1.keyPressed(e);
+        }else{
+            if(jugador1.getTanque().getDireccion() == "este"){
+                jugador1.getTanque().setPosX(jugador1.getTanque().getPosX()+1);
+            }
+            if(jugador1.getTanque().getDireccion() == "oeste"){
+                jugador1.getTanque().setPosX(jugador1.getTanque().getPosX()-1);
+            }
+            if(jugador1.getTanque().getDireccion() == "norte"){
+                jugador1.getTanque().setPosY(jugador1.getTanque().getPosY()+1);
+            }
+            if(jugador1.getTanque().getDireccion() == "sur"){
+                jugador1.getTanque().setPosY(jugador1.getTanque().getPosY()-1);
+            }
+        }
     }
 
     public void keyReleased(KeyEvent e) {
-        jugador1.keyReleased(e);
+            jugador1.keyReleased(e);
     }
     
     public void keyTyped(KeyEvent e) {

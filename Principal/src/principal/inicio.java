@@ -2,7 +2,7 @@ package principal;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
-public class inicio extends javax.swing.JFrame implements Runnable{
+public class inicio extends javax.swing.JFrame{
 
     private ImageIcon logo;
     private juego jue;
@@ -102,6 +102,7 @@ public class inicio extends javax.swing.JFrame implements Runnable{
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setVisible(false);
         jue.setVisible(true);
+        jue.a.start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -125,22 +126,5 @@ public class inicio extends javax.swing.JFrame implements Runnable{
     public void paint(Graphics g){
         super.paint(g);
         logo.paintIcon( this, g, 25, 20 );
-    }
-
-    public void run() {
-        while(true){
-        while(this.isVisible()){
-            jue.setVisible(false);
-            opc.setVisible(false);
-        }
-        while (jue.isVisible()){
-            this.setVisible(false);
-            opc.setVisible(false);
-        }
-        while(opc.isVisible()){
-            this.setVisible(false);
-            jue.setVisible(false);
-        }
-    }
     }
 }

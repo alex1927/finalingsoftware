@@ -1,15 +1,15 @@
 
 package jugadores;
 
-
 public class Players extends Thread{
     int tipo;
     tanque Tanque;
     estado status;
-
-    public Players(){
+    private boolean DISPARO = false;
+    
+    public Players(){        
         Tanque = new tanque();
-        status = new estado();
+        status = new estado();        
     }
 
     public void setTipo(int tipo){
@@ -19,8 +19,16 @@ public class Players extends Thread{
     public int getTipo(){
         return tipo;
     }
+    
+    public void setDisparo(boolean disparo){
+        this.DISPARO = disparo;
+    }
+    public boolean getDisparo(){
+        return DISPARO;
+    }
     @Override
     public void run(){
+
 
     }
 }
