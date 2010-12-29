@@ -2,16 +2,22 @@
 package principal;
 
 import escenario.panel;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class juego extends javax.swing.JFrame {
+public class juego extends javax.swing.JFrame implements KeyListener{
 
+    panel Panel;
+    public Thread a;
 
     public juego() {
+        Panel = new panel();
         initComponents();
         this.setSize(820, 650);
         this.setLocation(50,50);
-        
-        this.add(new panel());
+        this.add(Panel);
+        a = new Thread (Panel);
+        addKeyListener(this);
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -83,7 +89,7 @@ public class juego extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -104,4 +110,16 @@ public class juego extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     // End of variables declaration//GEN-END:variables
 
+    public void keyTyped(KeyEvent e) {
+        Panel.keyTyped(e);
+    }
+
+    public void keyPressed(KeyEvent e) {
+        Panel.keyPressed(e);
+    }
+
+    public void keyReleased(KeyEvent e) {
+        Panel.keyReleased(e);
+    }
+    
 }

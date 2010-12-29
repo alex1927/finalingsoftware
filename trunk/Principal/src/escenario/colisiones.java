@@ -1,7 +1,6 @@
 
 package escenario;
 import java.awt.Rectangle;
-import jugadores.tanque;
 
 public class colisiones {
     Rectangle rTanque;
@@ -12,7 +11,6 @@ public class colisiones {
     /*CONSTRUCTOR*/
     public colisiones(ladrillo lad[],acero ac[],agua ag[]){
         rTanque = new Rectangle();
-
         rLadrillos = new Rectangle[lad.length];
         rAguas = new Rectangle[ag.length];
         rAceros = new Rectangle[ac.length];
@@ -31,9 +29,9 @@ public class colisiones {
     }
     /*FIN DEL CONSTRUCTOR*/
 
-    public boolean hayColisionConLadrillo(tanque Tanque){
+    public boolean hayColisionConLadrillo(int posX, int posY,int Ancho, int Alto){
         boolean flag = false;
-        rTanque = new Rectangle(Tanque.getPosX(), Tanque.getPosY(), Tanque.getAncho(), Tanque.getAlto());
+        rTanque = new Rectangle(posX, posY, Ancho, Alto);
         for (int i = 0; i < rLadrillos.length; i++){
             if(rTanque.intersects(rLadrillos[i])){
                 flag = true;
@@ -42,9 +40,9 @@ public class colisiones {
         return flag;
     }
 
-    public boolean hayColisionConAcero(tanque Tanque){
+    public boolean hayColisionConAcero(int posX, int posY,int Ancho, int Alto){
         boolean flag = false;
-        rTanque = new Rectangle(Tanque.getPosX(), Tanque.getPosY(), Tanque.getAncho(), Tanque.getAlto());
+        rTanque = new Rectangle(posX, posY, Ancho, Alto);
         for (int i = 0; i < rAceros.length; i++){
             if(rTanque.intersects(rAceros[i])){
                 flag = true;
@@ -53,9 +51,9 @@ public class colisiones {
         return flag;
     }
 
-    public boolean hayColisionConAgua(tanque Tanque){
+    public boolean hayColisionConAgua(int posX, int posY,int Ancho, int Alto){
         boolean flag = false;
-        rTanque = new Rectangle(Tanque.getPosX(), Tanque.getPosY(), Tanque.getAncho(), Tanque.getAlto());
+        rTanque = new Rectangle(posX, posY,Ancho ,Alto);
         for (int i = 0; i < rAguas.length; i++){
             if(rTanque.intersects(rAguas[i])){
                 flag = true;

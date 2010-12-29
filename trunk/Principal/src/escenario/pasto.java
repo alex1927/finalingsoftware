@@ -14,7 +14,9 @@ public class pasto {
         img = new ImageIcon("pasto.gif");
     }
 
-    public int getId(){return id;}
+    public int getId(){
+        return id;
+    }
 
     public void dibujar(Graphics g, int posX, int posY){
         img.paintIcon(null, g, posX, posY);
