@@ -5,8 +5,8 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
 public class agua {
-    private final int ANCHO = 40;
-    private final int ALTO = 40;
+    private final int ANCHO = 20;
+    private final int ALTO = 20;
     private int id;
     private ImageIcon img;
     private int posX, posY;

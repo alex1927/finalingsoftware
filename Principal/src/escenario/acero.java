@@ -4,8 +4,8 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
 public class acero {
-    private final int ANCHO = 40;
-    private final int ALTO = 40;
+    private final int ANCHO = 20;
+    private final int ALTO = 20;
     private ImageIcon img;
     private int tipo, id;
     private int posX, posY;

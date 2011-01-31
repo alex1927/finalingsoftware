@@ -5,8 +5,8 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
 public class ladrillo {
-    private final int ANCHO = 40;
-    private final int ALTO = 40;
+    private final int ANCHO = 20;
+    private final int ALTO = 20;
     private int id, tipo;
     private ImageIcon img;
     private int posX, posY;
