@@ -1,10 +1,9 @@
-
 package jugadores;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class bala extends Thread implements limites{
+public class bala extends Thread implements limites {
 
     private final int ALTO = 6;
     private final int ANCHO = 6;
@@ -12,51 +11,51 @@ public class bala extends Thread implements limites{
     private int posY;
     private int velocidad;
     private String direccion;
-    
-    public bala(String direccion, int posX, int posY){
+
+    public bala(String direccion, int posX, int posY) {
         velocidad = 5;
         this.direccion = direccion;
         this.posX = posX;
         this.posY = posY;
     }
 
-    public int getPosX(){
+    public int getPosX() {
         return posX;
     }
 
-    public void setPosX(int posX){
+    public void setPosX(int posX) {
         this.posX = posX;
     }
 
-    public int getPosY(){
+    public int getPosY() {
         return posY;
     }
 
-    public void setPosY(int posY){
+    public void setPosY(int posY) {
         this.posY = posY;
     }
 
-    public void setDireccion(String direccion){
+    public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 
-    public String getDireccion(){
+    public String getDireccion() {
         return direccion;
     }
 
-    public int getAncho(){
+    public int getAncho() {
         return ANCHO;
     }
 
-    public int getAlto(){
+    public int getAlto() {
         return ALTO;
     }
 
-    public void setVelBala (int velocidad){
+    public void setVelBala(int velocidad) {
         this.velocidad = velocidad;
     }
 
-    public int getVelBala (){
+    public int getVelBala() {
         return velocidad;
     }
 
@@ -65,7 +64,7 @@ public class bala extends Thread implements limites{
     }
 
     public boolean choqueLimiteSur() {
-        return this.getPosY()+this.getAlto() > SUR;
+        return this.getPosY() + this.getAlto() > SUR;
     }
 
     public boolean choqueLimiteEste() {
@@ -73,56 +72,56 @@ public class bala extends Thread implements limites{
     }
 
     public boolean choqueLimiteOeste() {
-        return this.getPosX()+this.getAncho() > OESTE;
+        return this.getPosX() + this.getAncho() > OESTE;
     }
 
-    public void run(){
-         if(getDireccion()=="norte"){
-                 while(!choqueLimiteNorte()){
-                     System.out.println("Sale bala norte");
-                    this.setPosY(this.getPosY()-this.getVelBala());
-                    try {
-                        Thread.currentThread().sleep(50);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                 }
-         }
-         if(getDireccion()=="sur"){
-                 while(!choqueLimiteSur()){
-                     System.out.println("Sale bala sur");
-                    this.setPosY(this.getPosY()+this.getVelBala());
-                try {
-                    Thread.currentThread().sleep(50);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                 }
-         }
-         if(getDireccion()=="este"){
-             while( !choqueLimiteEste() ){
-                 System.out.println("Sale bala este");
-                this.setPosX(this.getPosX()-this.getVelBala());
+    public void run() {
+        if (getDireccion() == "norte") {
+            while (!choqueLimiteNorte()) {
+                System.out.println("Sale bala norte");
+                this.setPosY(this.getPosY() - this.getVelBala());
                 try {
                     Thread.currentThread().sleep(50);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-         }
-         if(getDireccion()=="oeste"){
-            while(!choqueLimiteOeste()){
+        }
+        if (getDireccion() == "sur") {
+            while (!choqueLimiteSur()) {
+                System.out.println("Sale bala sur");
+                this.setPosY(this.getPosY() + this.getVelBala());
+                try {
+                    Thread.currentThread().sleep(50);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        if (getDireccion() == "este") {
+            while (!choqueLimiteEste()) {
+                System.out.println("Sale bala este");
+                this.setPosX(this.getPosX() - this.getVelBala());
+                try {
+                    Thread.currentThread().sleep(50);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        if (getDireccion() == "oeste") {
+            while (!choqueLimiteOeste()) {
                 System.out.println("Sale bala oeste");
-                this.setPosX(this.getPosX()+this.getVelBala());
+                this.setPosX(this.getPosX() + this.getVelBala());
                 try {
                     Thread.currentThread().sleep(50);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-         }
-         System.out.println("murio bala"+ this.getDireccion());
-     Thread.currentThread().stop();
+        }
+        System.out.println("murio bala" + this.getDireccion());
+        Thread.currentThread().stop();
 
     }
 }
