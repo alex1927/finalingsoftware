@@ -105,16 +105,16 @@ public class Player2 extends Player {
                 this.setMover(true);
             }else{
                 this.setMover(false);
-                if(getTanque().getDireccion() == "norte"){
+                if(getTanque().getDireccion().equals("norte")){
                     getTanque().setPosY(getTanque().getPosY()+2);
                 }
-                if(getTanque().getDireccion() == "sur"){
+                if(getTanque().getDireccion().equals("sur")){
                     getTanque().setPosY(getTanque().getPosY()-2);
                 }
-                if(getTanque().getDireccion() == "oeste"){
+                if(getTanque().getDireccion().equals("oeste")){
                     getTanque().setPosX(getTanque().getPosX()-2);
                 }
-                if(getTanque().getDireccion() == "este"){
+                if(getTanque().getDireccion().equals("este")){
                     getTanque().setPosX(getTanque().getPosX()+2);
                 }
             }
