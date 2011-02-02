@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+import javax.swing.ImageIcon;
 
 public class escenario {
 
@@ -43,7 +44,10 @@ public class escenario {
     private Player1 jugador1;
     private Player2 jugador2;
     private colisiones monitor;
+    private boolean On;
+    private ImageIcon gameOver;
     private int prueba;
+
 
     public escenario() {
         random = new Random();
@@ -54,6 +58,8 @@ public class escenario {
         brickList = new LinkedList();
         waterList = new LinkedList();
         grassList = new LinkedList();
+        On = true;
+        gameOver = new ImageIcon("gameover.gif");
         escribirMatrizInicial();
         generarEscenarioAleatorio();
         cuentoElementos();
@@ -140,10 +146,10 @@ public class escenario {
         water = new agua[aguas];
 
         for (int i = 0; i < aceros; i = i + 1) {
-            steel[i] = new acero(i);
+            steel[i] = new acero();
         }
         for (int i = 0; i < ladrillos; i = i + 1) {
-            brick[i] = new ladrillo(i);
+            brick[i] = new ladrillo();
         }
         for (int i = 0; i < pastos; i++) {
             grass[i] = new pasto();
@@ -226,6 +232,12 @@ public class escenario {
             auxBrick = (ladrillo) iterBrick.next();
             auxBrick.dibujar(g, auxBrick.getPosX(), auxBrick.getPosY());
         }
+
+         while(!On){
+
+            dibujarGameOver(g,298,240);
+            break;
+        }
         eagle.dibujar(g);
 
     }
@@ -241,47 +253,34 @@ public class escenario {
     }
 
     public void keyTyped(KeyEvent e) {
+        jugador1.keyTyped(e);
+        jugador2.keyTyped(e);
     }
 
     public void controlBala() {
-        if (jugador1.getDisparo()) {
-            if (monitor.hayColisionConLadrillo(jugador1.getTanque().getBala().getPosX(),
-                    jugador1.getTanque().getBala().getPosY(),
-                    jugador1.getTanque().getBala().getAlto(),
-                    jugador1.getTanque().getBala().getAncho())) {
-                monitor.borrarLadrillo(jugador1.getTanque().getBala().getPosX(),
-                        jugador1.getTanque().getBala().getPosY(),
-                        jugador1.getTanque().getBala().getAlto(),
-                        jugador1.getTanque().getBala().getAncho());
-                endBala();
-                jugador1.setDisparo(false);
-            }
-
-            if (monitor.hayColisionConAcero(jugador1.getTanque().getBala().getPosX(),
-                    jugador1.getTanque().getBala().getPosY(),
-                    jugador1.getTanque().getBala().getAlto(),
-                    jugador1.getTanque().getBala().getAncho())) {
-                monitor.borrarAcero(jugador1.getTanque().getBala().getPosX(),
-                        jugador1.getTanque().getBala().getPosY(),
-                        jugador1.getTanque().getBala().getAlto(),
-                        jugador1.getTanque().getBala().getAncho());
-                endBala();
-                jugador1.setDisparo(false);
-            }
-        }
+        jugador1.controlBala();
+        jugador2.controlBala();
     }
 
     public void endBala() {
-        System.out.println("murio bala" + jugador1.getTanque().getBala().getDireccion());
-        jugador1.getTanque().getBala().stop();
+        jugador1.endBala();
+        jugador2.endBala();
     }
 
     public void limiteBala() {
-        if (jugador1.getDisparo()) {
-            if (jugador1.getTanque().getBala().getFlag()) {
-                jugador1.setDisparo(false);
-                jugador1.getTanque().getBala().setFlag(false);
-            }
-        }
+        jugador1.limiteBala();
+        jugador2.limiteBala();
     }
-}
+
+    public void On(){
+        if(!jugador1.getOn()){
+            On=false;
+            eagle.cambiarDibujo();
+        }
+        }
+
+        public void dibujarGameOver(Graphics g, int posX, int posY){
+        gameOver.paintIcon(null, g, posX, posY);
+    }
+    }
+
