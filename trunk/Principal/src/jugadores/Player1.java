@@ -43,18 +43,35 @@ public class Player1 extends Player {
     }
 
     public void keyTyped(KeyEvent e) {
+
     }
 
     public void keyReleased(KeyEvent e) {
         if (isMover()) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
+                    if (!Tanque.choqueLimiteNorte()) {
+                        Tanque.setDireccion("norte");
+                        Tanque.setPosY(Tanque.getPosY() - Tanque.getVelocidad());
+                    }
                     break;
                 case KeyEvent.VK_LEFT:
+                    if (!Tanque.choqueLimiteEste()) {
+                        Tanque.setDireccion("este");
+                        Tanque.setPosX(Tanque.getPosX() - Tanque.getVelocidad());
+                    }
                     break;
                 case KeyEvent.VK_RIGHT:
+                    if (!Tanque.choqueLimiteOeste()) {
+                        Tanque.setDireccion("oeste");
+                        Tanque.setPosX(Tanque.getPosX() + Tanque.getVelocidad());
+                    }
                     break;
                 case KeyEvent.VK_DOWN:
+                    if (!Tanque.choqueLimiteSur()) {
+                        Tanque.setDireccion("sur");
+                        Tanque.setPosY(Tanque.getPosY() + Tanque.getVelocidad());
+                    }
             }
         }
     }

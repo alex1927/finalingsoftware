@@ -3,7 +3,7 @@ import javax.swing.ImageIcon;
 
 public class acero extends Elementos{    
 
-    public acero(int id){
+    public acero(){
         img = new ImageIcon("acero.gif");
     }    
 }

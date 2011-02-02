@@ -10,6 +10,7 @@ public class colisiones {
     private Rectangle rLadrillos[];
     private Rectangle rAguas[];
     private Rectangle rAceros[];
+    private Rectangle rAguila;
     private ladrillo auxLad;
     private ListIterator iterLad;
     private List lad;
@@ -18,6 +19,7 @@ public class colisiones {
     private List ac;
     private agua auxAgua;
     private ListIterator iterAgua;
+    private Semaforo excMutua;
 
     /*CONSTRUCTOR*/
     public colisiones(List lad, List ac, List ag) {
@@ -25,11 +27,13 @@ public class colisiones {
         int i = 0;
         this.lad = lad;
         this.ac = ac;
+        excMutua = new Semaforo(1);
         // Rectangulos
         rTanque = new Rectangle();
         rLadrillos = new Rectangle[lad.size()];
         rAguas = new Rectangle[ag.size()];
         rAceros = new Rectangle[ac.size()];
+        rAguila = new Rectangle (360,520,40,40);
         // Iteradores
         iterLad = lad.listIterator();
         iterAce = ac.listIterator();
@@ -57,13 +61,25 @@ public class colisiones {
 
     public boolean mover(int posX, int posY, int Ancho, int Alto){
         boolean flag = false;
+        excMutua.Wait();
         if(!hayColisionConLadrillo(posX,posY,Alto,Ancho)&&
             !hayColisionConAgua(posX,posY,Alto,Ancho)&&
                 !hayColisionConAcero(posX,posY,Alto,Ancho)){
                 flag = true;
         }
+        excMutua.Signal();
         return flag;
     }
+
+        public boolean hayColisionConAguila(int posX, int posY, int Ancho, int Alto){
+        boolean flag = false;
+        rTanque = new Rectangle(posX, posY, Ancho, Alto);
+        if(rTanque.intersects(rAguila)){
+            flag= true;
+        }
+        return flag;
+    }
+
     public boolean hayColisionConLadrillo(int posX, int posY, int Ancho, int Alto) {
         boolean flag = false;
         rTanque = new Rectangle(posX, posY, Ancho, Alto);
