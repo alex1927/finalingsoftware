@@ -7,7 +7,7 @@ public class Players extends Thread {
     tanque Tanque;
     private boolean DISPARO = false;
     protected ImageIcon img;
-    private colisiones monitor;
+    protected colisiones monitor;
     public Players() {
         Tanque = new tanque();
     }
