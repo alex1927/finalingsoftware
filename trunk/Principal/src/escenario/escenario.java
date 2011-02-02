@@ -38,6 +38,7 @@ public class escenario {
     private pasto grass[];
     private List grassList;
     private ListIterator iterGrass;
+    private enemigos enemigo;
     private pasto auxGrass;
     private aguila eagle;
     private Random random;
@@ -54,6 +55,7 @@ public class escenario {
         eagle = new aguila();
         jugador1 = new Player1();
         jugador2 = new Player2();
+        enemigo = new enemigos(2);
         steelList = new LinkedList();
         brickList = new LinkedList();
         waterList = new LinkedList();
@@ -68,6 +70,7 @@ public class escenario {
         actualizoEscenario();
         jugador1.start();
         jugador2.start();
+        enemigo.start();
     }
 
     public final void escribirMatrizInicial() {
@@ -201,6 +204,7 @@ public class escenario {
         monitor = new colisiones(this.brickList, this.steelList, this.waterList);
         jugador1.Players(monitor);
         jugador2.Players(monitor);
+        enemigo.Players(monitor);
     }
 
     public void dibujarInicio(Graphics g) {
@@ -217,6 +221,7 @@ public class escenario {
 
         jugador1.dibujar(g, jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY());
         jugador2.dibujar(g, jugador2.getTanque().getPosX(), jugador2.getTanque().getPosY());
+        enemigo.dibujar(g, enemigo.getTanque().getPosX(), enemigo.getTanque().getPosY());
 
         while (iterGrass.hasNext()) {
             auxGrass = (pasto) iterGrass.next();
