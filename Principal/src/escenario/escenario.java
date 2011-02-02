@@ -43,6 +43,7 @@ public class escenario {
     private Player1 jugador1;
     private Player2 jugador2;
     private colisiones monitor;
+    private int prueba;
 
     public escenario() {
         random = new Random();
