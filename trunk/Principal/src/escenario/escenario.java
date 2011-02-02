@@ -55,7 +55,7 @@ public class escenario {
         eagle = new aguila();
         jugador1 = new Player1();
         jugador2 = new Player2();
-        enemigo = new enemigos(2);
+        enemigo = new enemigos(1);
         steelList = new LinkedList();
         brickList = new LinkedList();
         waterList = new LinkedList();
