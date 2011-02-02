@@ -26,4 +26,8 @@ public class aguila extends Elementos{
     public void dibujar(Graphics g){
         img.paintIcon(null, g, POSX, POSY);
     }
+
+     public void cambiarDibujo(){
+            img = new ImageIcon("aguila2.gif");
+    }
 }

@@ -125,6 +125,6 @@ public class inicio extends javax.swing.JFrame{
     @Override
     public void paint(Graphics g){
         super.paint(g);
-        logo.paintIcon( this, g, 25, 20 );
+        logo.paintIcon( null, g, 25, 20 );
     }
 }

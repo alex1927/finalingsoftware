@@ -28,6 +28,7 @@ public class panel extends JPanel implements Runnable{
         esc.actualizoEscenario();
         esc.controlBala();
         esc.limiteBala();
+        esc.On();
         repaint();        
         try {
                 Thread.sleep(50);
