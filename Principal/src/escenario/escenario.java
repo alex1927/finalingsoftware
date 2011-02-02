@@ -48,6 +48,7 @@ public class escenario {
         random = new Random();
         eagle = new aguila();
         jugador1 = new Player1();
+        jugador2 = new Player2();
         steelList = new LinkedList();
         brickList = new LinkedList();
         waterList = new LinkedList();
@@ -58,6 +59,8 @@ public class escenario {
         creoElementos();
         setPosiciones();
         actualizoEscenario();
+        jugador1.start();
+        jugador2.start();
     }
 
     public final void escribirMatrizInicial() {
@@ -187,6 +190,12 @@ public class escenario {
 
     }
 
+    public void actualizoEscenario() {
+        monitor = new colisiones(this.brickList, this.steelList, this.waterList);
+        jugador1.Players(monitor);
+        jugador2.Players(monitor);
+    }
+
     public void dibujarInicio(Graphics g) {
 
         iterSteel = steelList.listIterator();
@@ -200,6 +209,7 @@ public class escenario {
         }
 
         jugador1.dibujar(g, jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY());
+        jugador2.dibujar(g, jugador2.getTanque().getPosX(), jugador2.getTanque().getPosY());
 
         while (iterGrass.hasNext()) {
             auxGrass = (pasto) iterGrass.next();
@@ -220,35 +230,13 @@ public class escenario {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (!monitor.hayColisionConLadrillo(jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY(), jugador1.getTanque().getAncho(), jugador1.getTanque().getAlto())
-                && !monitor.hayColisionConAgua(jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY(), jugador1.getTanque().getAncho(), jugador1.getTanque().getAlto())
-                && !monitor.hayColisionConAcero(jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY(), jugador1.getTanque().getAncho(), jugador1.getTanque().getAlto())) {
-            jugador1.keyPressed(e);
-        } else {
-            if (jugador1.getTanque().getDireccion() == "este") {
-                jugador1.getTanque().setPosX(jugador1.getTanque().getPosX() + 1);
-            }
-            if (jugador1.getTanque().getDireccion() == "oeste") {
-                jugador1.getTanque().setPosX(jugador1.getTanque().getPosX() - 1);
-            }
-            if (jugador1.getTanque().getDireccion() == "norte") {
-                jugador1.getTanque().setPosY(jugador1.getTanque().getPosY() + 1);
-            }
-            if (jugador1.getTanque().getDireccion() == "sur") {
-                jugador1.getTanque().setPosY(jugador1.getTanque().getPosY() - 1);
-            }
-        }
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            if (!monitor.hayColisionConLadrillo(jugador1.getTanque().getBala().getPosX(),
-                    jugador1.getTanque().getBala().getPosY(),
-                    jugador1.getTanque().getBala().getAlto(),
-                    jugador1.getTanque().getBala().getAncho())) {
-            }
-        }
+        jugador1.keyPressed(e);
+        jugador2.keyPressed(e);
     }
 
     public void keyReleased(KeyEvent e) {
         jugador1.keyReleased(e);
+        jugador2.keyReleased(e);
     }
 
     public void keyTyped(KeyEvent e) {
@@ -294,9 +282,5 @@ public class escenario {
                 jugador1.getTanque().getBala().setFlag(false);
             }
         }
-    }
-
-    public void actualizoEscenario() {
-        monitor = new colisiones(this.brickList, this.steelList, this.waterList);
     }
 }
