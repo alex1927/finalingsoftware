@@ -44,8 +44,8 @@ public class enemigos extends Players {
         while (true) {
 
             if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
-                    || !getTanque().choqueLimiteEste()|| !getTanque().choqueLimiteOeste()|| !getTanque().choqueLimiteNorte()
-                    || !getTanque().choqueLimiteSur()) {
+                    && !getTanque().choqueLimiteEste()&& !getTanque().choqueLimiteOeste()&& !getTanque().choqueLimiteNorte()
+                    && !getTanque().choqueLimiteSur()) {
                 //System.out.println("posX: "+ getTanque().getPosX());
                 //System.out.println("posY: "+ getTanque().getPosY());
                 if (getTanque().getDireccion().equals("norte")) {
@@ -61,7 +61,21 @@ public class enemigos extends Players {
                     getTanque().setPosX(getTanque().getPosX() + getTanque().getVelocidad());
                 }
             } else {
-                ia.direccion(getTanque().getDireccion());
+                if (getTanque().getDireccion().equals("norte")) {
+                    getTanque().setPosY(getTanque().getPosY() + 2);
+                }
+                if (getTanque().getDireccion().equals("sur")) {
+                    getTanque().setPosY(getTanque().getPosY() - 2);
+                }
+                if (getTanque().getDireccion().equals("este")) {
+                    getTanque().setPosX(getTanque().getPosX() + 2);
+                }
+                if (getTanque().getDireccion().equals("oeste")) {
+                    getTanque().setPosX(getTanque().getPosX() - 2);
+                }
+                System.out.println("Viene con "+ getTanque().getDireccion());
+                getTanque().setDireccion(ia.direccion(getTanque().getDireccion()));
+                System.out.println(" Y cambia a " + getTanque().getDireccion());
 
             }
             try {

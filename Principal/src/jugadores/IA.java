@@ -12,9 +12,9 @@ public class IA {
 
     public String direccion(String direccion) {
         String dir = direccion;
-        int aux = (int) (Math.random() * 10 + 1);
-
-        do {
+        int aux; 
+        while(dir.equals(direccion)){
+            aux= (int) (Math.random() * 10 + 1);
             if (aux <= 4) {
                 dir = "sur";
             }
@@ -27,7 +27,7 @@ public class IA {
             if (aux >= 9 && aux <= 10) {
                 dir = "norte";
             }
-        } while (dir.equals(direccion));
+        }
         return dir;
     }
 }
