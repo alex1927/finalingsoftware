@@ -1,25 +1,25 @@
 package jugadores;
+import escenario.colisiones;
+import javax.swing.ImageIcon;
 
 public class Players extends Thread {
 
-    int tipo;
     tanque Tanque;
-    estado status;
     private boolean DISPARO = false;
-
+    protected ImageIcon img;
+    private colisiones monitor;
     public Players() {
         Tanque = new tanque();
-        status = new estado();
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void Players(colisiones monitor){
+        this.monitor = monitor;
     }
 
-    public int getTipo() {
-        return tipo;
+    public tanque getTanque() {
+        return Tanque;
     }
-
+    
     public void setDisparo(boolean disparo) {
         this.DISPARO = disparo;
     }
@@ -30,5 +30,6 @@ public class Players extends Thread {
 
     @Override
     public void run() {
+    
     }
 }

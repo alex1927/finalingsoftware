@@ -11,9 +11,19 @@ public class bala extends Thread implements limites {
     private int posY;
     private int velocidad;
     private String direccion;
+    private boolean flag;
+
+    public boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 
     public bala(String direccion, int posX, int posY) {
         velocidad = 5;
+        flag = false;
         this.direccion = direccion;
         this.posX = posX;
         this.posY = posY;
@@ -86,6 +96,7 @@ public class bala extends Thread implements limites {
                     Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            setFlag(true);
         }
         if (getDireccion() == "sur") {
             while (!choqueLimiteSur()) {
@@ -97,6 +108,7 @@ public class bala extends Thread implements limites {
                     Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            setFlag(true);
         }
         if (getDireccion() == "este") {
             while (!choqueLimiteEste()) {
@@ -108,6 +120,7 @@ public class bala extends Thread implements limites {
                     Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            setFlag(true);
         }
         if (getDireccion() == "oeste") {
             while (!choqueLimiteOeste()) {
@@ -119,6 +132,7 @@ public class bala extends Thread implements limites {
                     Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            setFlag(true);
         }
         System.out.println("murio bala" + this.getDireccion());
         Thread.currentThread().stop();

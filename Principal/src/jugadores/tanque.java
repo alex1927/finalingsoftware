@@ -5,8 +5,8 @@ import javax.swing.ImageIcon;
 
 public class tanque implements limites {
 
-    private final int ANCHO = 30;
-    private final int ALTO = 30;
+    private final static int ANCHO = 30;
+    private final static int ALTO = 30;
     private int velocidad;
     private int posX;
     private int posY;
@@ -42,7 +42,7 @@ public class tanque implements limites {
     public void dibujar(Graphics g) {
         //bullet.dibujar(g);
         img = new ImageIcon("bala.gif");
-        img.paintIcon(null, g, bullet.getPosX() + bullet.getVelBala(), bullet.getPosY() + bullet.getVelBala());
+        img.paintIcon(null, g, bullet.getPosX(), bullet.getPosY());
     }
 
     public int getVelocidad() {
@@ -86,7 +86,7 @@ public class tanque implements limites {
     }
 
     public void disparar() {
-        bullet = new bala(this.getDireccion(), this.getPosX() + 8, this.getPosY() + 8);
+        bullet = new bala(this.getDireccion(), this.getPosX()+12, this.getPosY()+12);
         bullet.start();
     }
 

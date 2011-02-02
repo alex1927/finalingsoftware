@@ -4,20 +4,26 @@ package escenario;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
-public class aguila {
-    private final int posX = 360;
-    private final int posY = 520;
-    private int tipo,id;
-    private ImageIcon img;
+public class aguila extends Elementos{
+    private final int POSX = 360;
+    private final int POSY = 520;
+    private final static int ancho = 40;
+    private final static int alto = 40;
 
     public aguila(){
-        tipo = 4;
         img = new ImageIcon("aguila.gif");
     }
 
-    public int getTipo(){return tipo;}
+    @Override
+    public int getAncho(){
+        return ancho;
+    }
 
+    @Override
+    public int getAlto(){
+        return alto;
+    }
     public void dibujar(Graphics g){
-        img.paintIcon(null, g, posX, posY);
+        img.paintIcon(null, g, POSX, POSY);
     }
 }

@@ -10,7 +10,6 @@ public class panel extends JPanel implements Runnable{
     private final int ANCHO = 720;
     private final int ALTO = 560;
     escenario esc;
-    int i = 0;
     public panel(){
         this.setBackground(Color.black);
         this.setSize(ANCHO, ALTO);
@@ -21,13 +20,15 @@ public class panel extends JPanel implements Runnable{
     @Override
     public void paint(Graphics g){
         super.paint(g);
-        esc.dibujarInicio(g);
-        
+        esc.dibujarInicio(g);        
     }
 
     public void run() {
         while(true){
-        repaint();
+        esc.actualizoEscenario();
+        esc.controlBala();
+        esc.limiteBala();
+        repaint();        
         try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
