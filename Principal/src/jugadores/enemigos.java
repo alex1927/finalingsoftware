@@ -12,8 +12,12 @@ public class enemigos extends Players {
     private int posIniX;
     private int posIniY;
     private boolean vivo;
+    private int tipo;
+    private long controlDisparo;
 
     public enemigos(int ubicacion) {
+        tipo = ubicacion;
+        controlDisparo = System.currentTimeMillis();
         posX = new int[3];
         posX[0] = 5;
         posX[1] = 365;
@@ -34,8 +38,17 @@ public class enemigos extends Players {
         this.vivo = vivo;
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+
     public void dibujar(Graphics g, int posX, int posY) {
-        img = new ImageIcon("tanqueE" + Tanque.getDireccion() + ".gif");
+        img = new ImageIcon("tanqueE" +getTipo()+ Tanque.getDireccion()+ ".gif");
         img.paintIcon(null, g, posX, posY);
         if (getDisparo()) {
             Tanque.dibujar(g);
@@ -46,7 +59,6 @@ public class enemigos extends Players {
     @Override
     public void run() {
         while (true) {
-
             if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
                     && !getTanque().choqueLimiteEste() && !getTanque().choqueLimiteOeste() && !getTanque().choqueLimiteNorte()
                     && !getTanque().choqueLimiteSur()) {
@@ -56,9 +68,10 @@ public class enemigos extends Players {
                 getTanque().setDireccion(IA(getTanque().getDireccion()));
             }
 
-            if (!getDisparo()) {
+            if (!getDisparo() && controlDisparo + 3000 < System.currentTimeMillis()) {
                 setDisparo(true);
-                Tanque.disparar();
+                getTanque().disparar();
+                controlDisparo = System.currentTimeMillis();
             }
 
             try {

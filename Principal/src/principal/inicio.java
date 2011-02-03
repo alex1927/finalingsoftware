@@ -1,5 +1,7 @@
 package principal;
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import javax.swing.ImageIcon;
 
 public class inicio extends javax.swing.JFrame{
@@ -7,6 +9,7 @@ public class inicio extends javax.swing.JFrame{
     private ImageIcon logo;
     private juego jue;
     private opciones opc;
+    
 
     public inicio() {
         initComponents();
