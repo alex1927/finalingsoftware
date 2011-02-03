@@ -59,7 +59,7 @@ public class colisiones {
     }
     /*FIN DEL CONSTRUCTOR*/
 
-    public boolean mover(int posX, int posY, int Ancho, int Alto){
+    public synchronized boolean mover(int posX, int posY, int Ancho, int Alto){
         boolean flag = false;
         excMutua.Wait();
         if(!hayColisionConLadrillo(posX,posY,Alto,Ancho)&&
@@ -71,7 +71,7 @@ public class colisiones {
         return flag;
     }
 
-        public boolean hayColisionConAguila(int posX, int posY, int Ancho, int Alto){
+   public boolean hayColisionConAguila(int posX, int posY, int Ancho, int Alto){
         boolean flag = false;
         rTanque = new Rectangle(posX, posY, Ancho, Alto);
         if(rTanque.intersects(rAguila)){
@@ -111,6 +111,15 @@ public class colisiones {
             }
         }
         return flag;
+    }    
+
+    public boolean hayColisionBalaConTanqueEnemigo(int posX, int posY,int Ancho, int Alto ){
+        boolean flag = false;
+        rTanque = new Rectangle(posX, posY, Ancho, Alto);
+        if(rTanque.intersects(rAguila)){
+            flag= true;
+        }
+        return flag;
     }
 
     public void borrarLadrillo(int posX, int posY, int Ancho, int Alto){
@@ -141,5 +150,5 @@ public class colisiones {
                 aux.remove();
             }
         }
-    }
+    }     
 }

@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 
 public class bala extends Thread implements limites {
 
-    private final int ALTO = 6;
-    private final int ANCHO = 6;
+    private final int ALTO = 8;
+    private final int ANCHO = 8;
     private int posX;
     private int posY;
     private int velocidad;
@@ -85,10 +85,10 @@ public class bala extends Thread implements limites {
         return this.getPosX() + this.getAncho() > OESTE;
     }
 
+    @Override
     public void run() {
-        if (getDireccion() == "norte") {
+        if (getDireccion().equals("norte")) {
             while (!choqueLimiteNorte()) {
-                System.out.println("Sale bala norte");
                 this.setPosY(this.getPosY() - this.getVelBala());
                 try {
                     Thread.currentThread().sleep(50);
@@ -98,9 +98,8 @@ public class bala extends Thread implements limites {
             }
             setFlag(true);
         }
-        if (getDireccion() == "sur") {
+        if (getDireccion().equals("sur")) {
             while (!choqueLimiteSur()) {
-                System.out.println("Sale bala sur");
                 this.setPosY(this.getPosY() + this.getVelBala());
                 try {
                     Thread.currentThread().sleep(50);
@@ -110,9 +109,8 @@ public class bala extends Thread implements limites {
             }
             setFlag(true);
         }
-        if (getDireccion() == "este") {
+        if (getDireccion().equals("este")) {
             while (!choqueLimiteEste()) {
-                System.out.println("Sale bala este");
                 this.setPosX(this.getPosX() - this.getVelBala());
                 try {
                     Thread.currentThread().sleep(50);
@@ -122,9 +120,8 @@ public class bala extends Thread implements limites {
             }
             setFlag(true);
         }
-        if (getDireccion() == "oeste") {
+        if (getDireccion().equals("oeste")) {
             while (!choqueLimiteOeste()) {
-                System.out.println("Sale bala oeste");
                 this.setPosX(this.getPosX() + this.getVelBala());
                 try {
                     Thread.currentThread().sleep(50);
@@ -134,7 +131,6 @@ public class bala extends Thread implements limites {
             }
             setFlag(true);
         }
-        System.out.println("murio bala" + this.getDireccion());
         Thread.currentThread().stop();
 
     }

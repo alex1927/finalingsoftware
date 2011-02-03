@@ -1,12 +1,11 @@
 package jugadores;
-
 import escenario.colisiones;
 import javax.swing.ImageIcon;
 
 public class Players extends Thread {
 
     tanque Tanque;
-    private boolean On = true;
+    private boolean noTocoAguila = true;
     private boolean DISPARO = false;
     protected ImageIcon img;
     protected colisiones monitor;
@@ -19,12 +18,12 @@ public class Players extends Thread {
         this.monitor = monitor;
     }
 
-    public boolean getOn() {
-        return On;
+    public boolean isNoTocoAguila() {
+        return noTocoAguila;
     }
 
-    public void setOn(boolean On) {
-        this.On = On;
+    public void setNoTocoAguila(boolean noTocoAguila) {
+        this.noTocoAguila = noTocoAguila;
     }
 
     public tanque getTanque() {
@@ -41,10 +40,12 @@ public class Players extends Thread {
 
     public void controlBala() {
         if (getDisparo()) {
-            if (monitor.hayColisionConLadrillo(getTanque().getBala().getPosX(),
+            if (monitor.hayColisionConLadrillo(
+                    getTanque().getBala().getPosX(),
                     getTanque().getBala().getPosY(),
                     getTanque().getBala().getAlto(),
-                    getTanque().getBala().getAncho())) {
+                    getTanque().getBala().getAncho()
+                    )) {
                 monitor.borrarLadrillo(getTanque().getBala().getPosX(),
                         getTanque().getBala().getPosY(),
                         getTanque().getBala().getAlto(),
@@ -65,13 +66,11 @@ public class Players extends Thread {
                 setDisparo(false);
 
             }
-
             if (monitor.hayColisionConAguila(getTanque().getBala().getPosX(),
                     getTanque().getBala().getPosY(),
                     getTanque().getBala().getAlto(),
                     getTanque().getBala().getAncho())) {
-                //romperAguila();
-                On = false;
+                noTocoAguila = false;
                 endBala();
                 setDisparo(false);
             }
@@ -79,7 +78,6 @@ public class Players extends Thread {
     }
 
     public void endBala() {
-        System.out.println("murio bala" + getTanque().getBala().getDireccion());
         getTanque().getBala().stop();
     }
 
@@ -94,5 +92,35 @@ public class Players extends Thread {
 
     @Override
     public void run() {
+    }
+
+    public void moverse(){
+        if (getTanque().getDireccion().equals("norte")) {
+            getTanque().setPosY(getTanque().getPosY() - getTanque().getVelocidad());
+        }
+        if (getTanque().getDireccion().equals("sur")) {
+            getTanque().setPosY(getTanque().getPosY() + getTanque().getVelocidad());
+        }
+        if (getTanque().getDireccion().equals("oeste")) {
+            getTanque().setPosX(getTanque().getPosX() + getTanque().getVelocidad());
+        }
+        if (getTanque().getDireccion().equals("este")) {
+            getTanque().setPosX(getTanque().getPosX() - getTanque().getVelocidad());
+        }
+    }
+
+    public void antiColisiones(){
+        if (getTanque().getDireccion().equals("norte")) {
+                    getTanque().setPosY(getTanque().getPosY() + 3);
+                }
+                if (getTanque().getDireccion().equals("sur")) {
+                    getTanque().setPosY(getTanque().getPosY() - 3);
+                }
+                if (getTanque().getDireccion().equals("oeste")) {
+                    getTanque().setPosX(getTanque().getPosX() - 3);
+                }
+                if (getTanque().getDireccion().equals("este")) {
+                    getTanque().setPosX(getTanque().getPosX() + 3);
+                }
     }
 }

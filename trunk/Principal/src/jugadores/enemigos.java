@@ -11,23 +11,27 @@ public class enemigos extends Players {
     private static final int posY = 5;
     private int posIniX;
     private int posIniY;
-    private IA ia;
+    private boolean vivo;
 
     public enemigos(int ubicacion) {
-        ia= new IA();
         posX = new int[3];
         posX[0] = 5;
         posX[1] = 365;
         posX[2] = 685;
-
-
         posIniX = posX[ubicacion];
         posIniY = posY;
-
         Tanque.setPosX(posIniX);
         Tanque.setPosY(posIniY);
         Tanque.setDireccion("sur");
+        Tanque.setVelocidad(2);
+    }
 
+    public boolean isVivo() {
+        return vivo;
+    }
+
+    public void setVivo(boolean vivo) {
+        this.vivo = vivo;
     }
 
     public void dibujar(Graphics g, int posX, int posY) {
@@ -44,40 +48,19 @@ public class enemigos extends Players {
         while (true) {
 
             if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
-                    && !getTanque().choqueLimiteEste()&& !getTanque().choqueLimiteOeste()&& !getTanque().choqueLimiteNorte()
+                    && !getTanque().choqueLimiteEste() && !getTanque().choqueLimiteOeste() && !getTanque().choqueLimiteNorte()
                     && !getTanque().choqueLimiteSur()) {
-                //System.out.println("posX: "+ getTanque().getPosX());
-                //System.out.println("posY: "+ getTanque().getPosY());
-                if (getTanque().getDireccion().equals("norte")) {
-                    getTanque().setPosY(getTanque().getPosY() - getTanque().getVelocidad());
-                }
-                if (getTanque().getDireccion().equals("sur")) {
-                    getTanque().setPosY(getTanque().getPosY() + getTanque().getVelocidad());
-                }
-                if (getTanque().getDireccion().equals("este")) {
-                    getTanque().setPosX(getTanque().getPosX() - getTanque().getVelocidad());
-                }
-                if (getTanque().getDireccion().equals("oeste")) {
-                    getTanque().setPosX(getTanque().getPosX() + getTanque().getVelocidad());
-                }
+                this.moverse();
             } else {
-                if (getTanque().getDireccion().equals("norte")) {
-                    getTanque().setPosY(getTanque().getPosY() + 2);
-                }
-                if (getTanque().getDireccion().equals("sur")) {
-                    getTanque().setPosY(getTanque().getPosY() - 2);
-                }
-                if (getTanque().getDireccion().equals("este")) {
-                    getTanque().setPosX(getTanque().getPosX() + 2);
-                }
-                if (getTanque().getDireccion().equals("oeste")) {
-                    getTanque().setPosX(getTanque().getPosX() - 2);
-                }
-                System.out.println("Viene con "+ getTanque().getDireccion());
-                getTanque().setDireccion(ia.direccion(getTanque().getDireccion()));
-                System.out.println(" Y cambia a " + getTanque().getDireccion());
-
+                this.antiColisiones();
+                getTanque().setDireccion(IA(getTanque().getDireccion()));
             }
+
+            if (!getDisparo()) {
+                setDisparo(true);
+                Tanque.disparar();
+            }
+
             try {
                 Thread.sleep(50);
             } catch (InterruptedException ex) {
@@ -85,4 +68,27 @@ public class enemigos extends Players {
             }
         }
     }
+
+    public String IA(String direccion) {
+        String dir = direccion;
+        int aux;
+        while (dir.equals(direccion)) {
+            aux = (int) (Math.random() * 10 + 1);
+            if (aux <= 4) {
+                dir = "sur";
+            }
+            if (aux >= 5 && aux <= 6) {
+                dir = "este";
+            }
+            if (aux >= 7 && aux <= 8) {
+                dir = "oeste";
+            }
+            if (aux >= 9 && aux <= 10) {
+                dir = "norte";
+            }
+        }
+        return dir;
+    }
+
+
 }

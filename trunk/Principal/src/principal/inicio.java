@@ -12,8 +12,7 @@ public class inicio extends javax.swing.JFrame{
         initComponents();
         this.setVisible(true);
         this.setLocation(450, 200);
-        logo = new ImageIcon("logo.jpg");
-        jue = new juego();
+        logo = new ImageIcon("logo.jpg");        
         opc = new opciones();
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,6 +100,7 @@ public class inicio extends javax.swing.JFrame{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setVisible(false);
+        jue = new juego();
         jue.setVisible(true);
         jue.a.start();
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -10,7 +10,6 @@ public class Player2 extends Player {
 
     private final int posIniX = 445;
     private final int posIniY = 525;
-    private boolean mover = false;
 
     public Player2() {
         img = new ImageIcon("tanque2" + Tanque.getDireccion() + ".gif");
@@ -26,14 +25,6 @@ public class Player2 extends Player {
         return posIniY;
     }
 
-    public boolean isMover() {
-        return mover;
-    }
-
-    public void setMover(boolean mover) {
-        this.mover = mover;
-    }
-
     public void dibujar(Graphics g, int posX, int posY) {
         img = new ImageIcon("tanque2" + Tanque.getDireccion() + ".gif");
         img.paintIcon(null, g, posX, posY);
@@ -42,81 +33,66 @@ public class Player2 extends Player {
         }
     }
 
-    
     public void keyTyped(KeyEvent e) {
     }
 
     public void keyReleased(KeyEvent e) {
-        if (isMover()) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    break;
-                case KeyEvent.VK_A:
-                    break;
-                case KeyEvent.VK_D:
-                    break;
-                case KeyEvent.VK_S:
-                    break;
-            }
+
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                getTanque().setVelocidad(0);
+                break;
+            case KeyEvent.VK_A:
+                getTanque().setVelocidad(0);
+                break;
+            case KeyEvent.VK_D:
+                getTanque().setVelocidad(0);
+                break;
+            case KeyEvent.VK_S:
+                getTanque().setVelocidad(0);
+                break;
         }
+
     }
 
     public void keyPressed(KeyEvent e) {
-        if (isMover()) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    if (!Tanque.choqueLimiteNorte()) {
-                        Tanque.setDireccion("norte");
-                        Tanque.setPosY(Tanque.getPosY() - Tanque.getVelocidad());
-                    }
-                    break;
-                case KeyEvent.VK_A:
-                    if (!Tanque.choqueLimiteEste()) {
-                        Tanque.setDireccion("este");
-                        Tanque.setPosX(Tanque.getPosX() - Tanque.getVelocidad());
-                    }
-                    break;
-                case KeyEvent.VK_D:
-                    if (!Tanque.choqueLimiteOeste()) {
-                        Tanque.setDireccion("oeste");
-                        Tanque.setPosX(Tanque.getPosX() + Tanque.getVelocidad());
-                    }
-                    break;
-                case KeyEvent.VK_S:
-                    if (!Tanque.choqueLimiteSur()) {
-                        Tanque.setDireccion("sur");
-                        Tanque.setPosY(Tanque.getPosY() + Tanque.getVelocidad());
-                    }
-                    break;
-                case KeyEvent.VK_H:
-                    if (!getDisparo()) {
-                        setDisparo(true);
-                        Tanque.disparar();
-                    }
-                    break;
-            }
+
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                Tanque.setDireccion("norte");
+                getTanque().setVelocidad(2);
+                break;
+            case KeyEvent.VK_A:
+                Tanque.setDireccion("este");
+                getTanque().setVelocidad(2);
+                break;
+            case KeyEvent.VK_D:
+                Tanque.setDireccion("oeste");
+                getTanque().setVelocidad(2);
+                break;
+            case KeyEvent.VK_S:
+                Tanque.setDireccion("sur");
+                getTanque().setVelocidad(2);
+                break;
+            case KeyEvent.VK_H:
+                if (!getDisparo()) {
+                    setDisparo(true);
+                    Tanque.disparar();
+                }
+                break;
+
         }
     }
 
     @Override
     public void run() {
         while (true) {
-            if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())) {
-                this.setMover(true);
-            }else{
-                this.setMover(false);
-                if(getTanque().getDireccion().equals("norte")){
-                    getTanque().setPosY(getTanque().getPosY()+2);
-                }
-                if(getTanque().getDireccion().equals("sur")){
-                    getTanque().setPosY(getTanque().getPosY()-2);
-                }
-                if(getTanque().getDireccion().equals("oeste")){
-                    getTanque().setPosX(getTanque().getPosX()-2);
-                }
-                if(getTanque().getDireccion().equals("este")){
-                    getTanque().setPosX(getTanque().getPosX()+2);
-                }
+            if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
+                    && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
+                    && !Tanque.choqueLimiteSur() && !Tanque.choqueLimiteOeste()) {
+                this.moverse();
+            } else {
+                this.antiColisiones();
             }
             try {
                 Thread.sleep(50);
