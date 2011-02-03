@@ -9,11 +9,13 @@ import javax.swing.JPanel;
 public class panel extends JPanel implements Runnable{
     private final int ANCHO = 720;
     private final int ALTO = 560;
+    private long controlTime;
     escenario esc;
     public panel(){
         this.setBackground(Color.black);
         this.setSize(ANCHO, ALTO);
         this.setLocation(20, 20);
+        controlTime = System.currentTimeMillis();
         esc = new escenario();
     }
 
@@ -25,10 +27,15 @@ public class panel extends JPanel implements Runnable{
 
     public void run() {
         while(true){
+        if((controlTime + 5000) < System.currentTimeMillis()){
+            esc.crearEnemigo();
+            controlTime = System.currentTimeMillis();
+        }
+        
         esc.actualizoEscenario();
         esc.controlBala();
         esc.limiteBala();
-        esc.On();
+        esc.llegoFinDeJuego();
         repaint();        
         try {
                 Thread.sleep(50);

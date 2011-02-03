@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Random;
 import javax.swing.ImageIcon;
 
 public class escenario {
@@ -38,29 +37,30 @@ public class escenario {
     private pasto grass[];
     private List grassList;
     private ListIterator iterGrass;
-    private enemigos enemigo;
     private pasto auxGrass;
     private aguila eagle;
-    private Random random;
     private Player1 jugador1;
     private Player2 jugador2;
     private colisiones monitor;
-    private boolean On;
+    private boolean finDeJuego;
     private ImageIcon gameOver;
-    private int prueba;
-
+    private enemigos enemy[];
+    private int enemigosCreados;    
 
     public escenario() {
-        random = new Random();
+        enemigosCreados = 0;        
         eagle = new aguila();
         jugador1 = new Player1();
         jugador2 = new Player2();
-        enemigo = new enemigos(1);
+        enemy = new enemigos[3];
+        for (int i = 0; i < enemy.length; i++){
+            enemy[i] = new enemigos(i%3);
+        }
         steelList = new LinkedList();
         brickList = new LinkedList();
         waterList = new LinkedList();
         grassList = new LinkedList();
-        On = true;
+        finDeJuego = true;
         gameOver = new ImageIcon("gameover.gif");
         escribirMatrizInicial();
         generarEscenarioAleatorio();
@@ -70,7 +70,7 @@ public class escenario {
         actualizoEscenario();
         jugador1.start();
         jugador2.start();
-        enemigo.start();
+        crearEnemigo();
     }
 
     public final void escribirMatrizInicial() {
@@ -109,7 +109,7 @@ public class escenario {
         for (int i = 0; i < 28; i = i + 2) {
             for (j = 0; j < 36; j = j + 2) {
                 aux = (int) (Math.random() * 6 + 1);
-                if (matriz[i][j] == 0) {
+                if (matriz[i][j] == 0 && matriz[i + 1][j] == 0 && matriz[i][j + 1] == 0 && matriz[i + 1][j + 1] == 0) {
                     matriz[i][j] = aux;
                     matriz[i + 1][j] = aux;
                     matriz[i][j + 1] = aux;
@@ -204,7 +204,9 @@ public class escenario {
         monitor = new colisiones(this.brickList, this.steelList, this.waterList);
         jugador1.Players(monitor);
         jugador2.Players(monitor);
-        enemigo.Players(monitor);
+        for(int i = 0; i < enemy.length ; i++){
+            enemy[i].Players(monitor);
+        }
     }
 
     public void dibujarInicio(Graphics g) {
@@ -218,10 +220,14 @@ public class escenario {
             auxWater = (agua) iterWater.next();
             auxWater.dibujar(g, auxWater.getPosX(), auxWater.getPosY());
         }
-
         jugador1.dibujar(g, jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY());
         jugador2.dibujar(g, jugador2.getTanque().getPosX(), jugador2.getTanque().getPosY());
-        enemigo.dibujar(g, enemigo.getTanque().getPosX(), enemigo.getTanque().getPosY());
+
+        for(int i = 0; i < enemy.length ; i++){
+            if(enemy[i].isVivo()){
+                enemy[i].dibujar(g, enemy[i].getTanque().getPosX(), enemy[i].getTanque().getPosY());
+            }
+        }
 
         while (iterGrass.hasNext()) {
             auxGrass = (pasto) iterGrass.next();
@@ -238,15 +244,16 @@ public class escenario {
             auxBrick.dibujar(g, auxBrick.getPosX(), auxBrick.getPosY());
         }
 
-         while(!On){
-
-            dibujarGameOver(g,298,240);
+        while (!finDeJuego) {
+            dibujarGameOver(g, 298, 240);
             break;
         }
         eagle.dibujar(g);
 
     }
-
+    /***************************************************************************
+     *****************************Teclado **************************************
+     ***************************************************************************/
     public void keyPressed(KeyEvent e) {
         jugador1.keyPressed(e);
         jugador2.keyPressed(e);
@@ -261,31 +268,66 @@ public class escenario {
         jugador1.keyTyped(e);
         jugador2.keyTyped(e);
     }
-
+    /***************************************************************************
+     **************************** Control de balas *****************************
+     ***************************************************************************/
     public void controlBala() {
         jugador1.controlBala();
         jugador2.controlBala();
+        for (int i = 0; i < enemy.length; i++){
+            enemy[i].controlBala();
+        }
     }
 
     public void endBala() {
         jugador1.endBala();
         jugador2.endBala();
+        for (int i = 0; i < enemy.length; i++){
+            enemy[i].endBala();
+        }
     }
 
     public void limiteBala() {
         jugador1.limiteBala();
         jugador2.limiteBala();
+        for (int i = 0; i < enemy.length; i++){
+            enemy[i].limiteBala();
+        }
     }
 
-    public void On(){
-        if(!jugador1.getOn()){
-            On=false;
+    public void llegoFinDeJuego() {
+        boolean enemigoTocoAguila = true;
+        for(int i = 0; i < enemy.length ; i++){
+            if (!enemy[i].isNoTocoAguila()){
+                enemigoTocoAguila = false;
+            }
+        }
+        if (!jugador1.isNoTocoAguila() || !jugador2.isNoTocoAguila() || !enemigoTocoAguila) {
+            finDeJuego = false;
             eagle.cambiarDibujo();
         }
-        }
+    }
 
-        public void dibujarGameOver(Graphics g, int posX, int posY){
+    public void dibujarGameOver(Graphics g, int posX, int posY) {
         gameOver.paintIcon(null, g, posX, posY);
     }
+
+    public int getEnemigosCreados() {
+        return enemigosCreados;
     }
 
+    public void setEnemigosCreados(int enemigosCreados) {
+        this.enemigosCreados = enemigosCreados;
+    }
+
+    
+    public void crearEnemigo(){
+        if(this.enemigosCreados < this.enemy.length){
+            enemy[enemigosCreados].start();
+            enemy[enemigosCreados].setVivo(true);
+            enemigosCreados ++;
+        }
+    }
+
+
+}

@@ -16,7 +16,7 @@ public class tanque implements limites {
 
     public tanque() {
         direccion = "norte";
-        velocidad = 2;
+        velocidad = 0;
         posX = 0;
         posY = 0;
         img = new ImageIcon("bala.gif");

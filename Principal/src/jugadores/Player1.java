@@ -10,7 +10,6 @@ public class Player1 extends Player {
 
     private final static int posIniX = 285;
     private final static int posIniY = 525;
-    private boolean mover = false;
 
     public Player1() {
         img = new ImageIcon("tanque" + Tanque.getDireccion() + ".gif");
@@ -26,16 +25,8 @@ public class Player1 extends Player {
         return posIniY;
     }
 
-    public boolean isMover() {
-        return mover;
-    }
-
-    public void setMover(boolean mover) {
-        this.mover = mover;
-    }
-
     public void dibujar(Graphics g, int posX, int posY) {
-        img = new ImageIcon("tanque" + Tanque.getDireccion() + ".gif");
+        img = new ImageIcon("tanque"+ Tanque.getDireccion()+".gif");
         img.paintIcon(null, g, posX, posY);
         if (getDisparo()) {
             Tanque.dibujar(g);
@@ -47,61 +38,38 @@ public class Player1 extends Player {
     }
 
     public void keyReleased(KeyEvent e) {
-        if (isMover()) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
-                    if (!Tanque.choqueLimiteNorte()) {
-                        Tanque.setDireccion("norte");
-                        Tanque.setPosY(Tanque.getPosY() - Tanque.getVelocidad());
-                    }
+                    getTanque().setVelocidad(0);
                     break;
                 case KeyEvent.VK_LEFT:
-                    if (!Tanque.choqueLimiteEste()) {
-                        Tanque.setDireccion("este");
-                        Tanque.setPosX(Tanque.getPosX() - Tanque.getVelocidad());
-                    }
+                    getTanque().setVelocidad(0);
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (!Tanque.choqueLimiteOeste()) {
-                        Tanque.setDireccion("oeste");
-                        Tanque.setPosX(Tanque.getPosX() + Tanque.getVelocidad());
-                    }
+                    getTanque().setVelocidad(0);
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (!Tanque.choqueLimiteSur()) {
-                        Tanque.setDireccion("sur");
-                        Tanque.setPosY(Tanque.getPosY() + Tanque.getVelocidad());
-                    }
+                    getTanque().setVelocidad(0);
             }
-        }
     }
 
     public void keyPressed(KeyEvent e) {
-        if (isMover()) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
-                    if (!Tanque.choqueLimiteNorte()) {
-                        Tanque.setDireccion("norte");
-                        Tanque.setPosY(Tanque.getPosY() - Tanque.getVelocidad());
-                    }
+                    Tanque.setDireccion("norte");
+                    getTanque().setVelocidad(2);
                     break;
                 case KeyEvent.VK_LEFT:
-                    if (!Tanque.choqueLimiteEste()) {
-                        Tanque.setDireccion("este");
-                        Tanque.setPosX(Tanque.getPosX() - Tanque.getVelocidad());
-                    }
+                    Tanque.setDireccion("este");
+                    getTanque().setVelocidad(2);
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (!Tanque.choqueLimiteOeste()) {
-                        Tanque.setDireccion("oeste");
-                        Tanque.setPosX(Tanque.getPosX() + Tanque.getVelocidad());
-                    }
+                    Tanque.setDireccion("oeste");
+                    getTanque().setVelocidad(2);
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (!Tanque.choqueLimiteSur()) {
-                        Tanque.setDireccion("sur");
-                        Tanque.setPosY(Tanque.getPosY() + Tanque.getVelocidad());
-                    }
+                    Tanque.setDireccion("sur");
+                    getTanque().setVelocidad(2);
                     break;
                 case KeyEvent.VK_SPACE:
                     if (!getDisparo()) {
@@ -110,28 +78,17 @@ public class Player1 extends Player {
                     }
                     break;
             }
-        }
     }
 
     @Override
     public void run() {
         while (true) {
-            if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())) {
-                this.setMover(true);
-            } else {
-                this.setMover(false);
-                if (getTanque().getDireccion().equals("norte")) {
-                    getTanque().setPosY(getTanque().getPosY() + 2);
-                }
-                if (getTanque().getDireccion().equals("sur")) {
-                    getTanque().setPosY(getTanque().getPosY() - 2);
-                }
-                if (getTanque().getDireccion().equals("oeste")) {
-                    getTanque().setPosX(getTanque().getPosX() - 2);
-                }
-                if (getTanque().getDireccion().equals("este")) {
-                    getTanque().setPosX(getTanque().getPosX() + 2);
-                }
+            if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
+                    && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
+                    && !Tanque.choqueLimiteSur() && !Tanque.choqueLimiteOeste()) {                
+                this.moverse();
+            } else {                
+                this.antiColisiones();
             }
             try {
                 Thread.sleep(50);
@@ -139,5 +96,5 @@ public class Player1 extends Player {
                 Logger.getLogger(Player2.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
+    }    
 }
