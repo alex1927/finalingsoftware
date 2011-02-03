@@ -52,7 +52,7 @@ public class escenario {
         eagle = new aguila();
         jugador1 = new Player1();
         jugador2 = new Player2();
-        enemy = new enemigos[3];
+        enemy = new enemigos[18];
         for (int i = 0; i < enemy.length; i++){
             enemy[i] = new enemigos(i%3);
         }
@@ -201,7 +201,7 @@ public class escenario {
     }
 
     public void actualizoEscenario() {
-        monitor = new colisiones(this.brickList, this.steelList, this.waterList);
+        monitor = new colisiones(this.brickList, this.steelList, this.waterList,jugador1,jugador2,enemy);
         jugador1.Players(monitor);
         jugador2.Players(monitor);
         for(int i = 0; i < enemy.length ; i++){

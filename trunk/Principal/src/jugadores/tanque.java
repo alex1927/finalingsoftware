@@ -86,7 +86,19 @@ public class tanque implements limites {
     }
 
     public void disparar() {
-        bullet = new bala(this.getDireccion(), this.getPosX()+12, this.getPosY()+12);
+        if(this.getDireccion().equals("sur")){
+            bullet = new bala(getDireccion(),getPosX()+11, getPosY()+31);
+        }
+        if(this.getDireccion().equals("norte")){
+            bullet = new bala(getDireccion(),getPosX()+11, getPosY()-9);
+        }
+        if(this.getDireccion().equals("este")){
+            bullet = new bala(getDireccion(),getPosX()-9, getPosY()+11);
+        }
+        if(this.getDireccion().equals("oeste")){
+            bullet = new bala(getDireccion(),getPosX()+31, getPosY()+11);
+        }
+
         bullet.start();
     }
 

@@ -2,19 +2,22 @@
 package principal;
 
 import escenario.panel;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class juego extends javax.swing.JFrame implements KeyListener{
 
-    panel Panel;
+    panel Panel;    
     public Thread a;
-
+    static GraphicsDevice grafica=
+                GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
     public juego() {
         Panel = new panel();
         initComponents();
         this.setSize(820, 650);
-        this.setLocation(50,50);
+        this.setLocation(200,50);
         this.add(Panel);
         a = new Thread (Panel);
         addKeyListener(this);
@@ -26,6 +29,7 @@ public class juego extends javax.swing.JFrame implements KeyListener{
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
@@ -56,6 +60,15 @@ public class juego extends javax.swing.JFrame implements KeyListener{
             }
         });
         jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ENTER, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem4.setText("Fullscreen");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("salir");
@@ -89,7 +102,10 @@ public class juego extends javax.swing.JFrame implements KeyListener{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
+   
+        juego jue = new juego();
+        jue.setVisible(true);
+        jue.a.start();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -101,6 +117,11 @@ public class juego extends javax.swing.JFrame implements KeyListener{
         new inicio().setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+       grafica.setFullScreenWindow(this);
+       Panel.setLocation(250, 100);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -108,6 +129,7 @@ public class juego extends javax.swing.JFrame implements KeyListener{
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     // End of variables declaration//GEN-END:variables
 
     public void keyTyped(KeyEvent e) {

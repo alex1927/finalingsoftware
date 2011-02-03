@@ -66,6 +66,16 @@ public class Players extends Thread {
                 setDisparo(false);
 
             }
+
+            if (monitor.hayColisionBalaTanque(getTanque().getBala().getPosX(),
+                    getTanque().getBala().getPosY(),
+                    getTanque().getBala().getAlto(),
+                    getTanque().getBala().getAncho())) {
+                endBala();
+                setDisparo(false);
+
+            }
+
             if (monitor.hayColisionConAguila(getTanque().getBala().getPosX(),
                     getTanque().getBala().getPosY(),
                     getTanque().getBala().getAlto(),
