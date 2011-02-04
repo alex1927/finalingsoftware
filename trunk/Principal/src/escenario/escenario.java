@@ -45,7 +45,8 @@ public class escenario {
     private boolean finDeJuego;
     private ImageIcon gameOver;
     private enemigos enemy[];
-    private int enemigosCreados;    
+    private int enemigosCreados;
+    private int pruebaAgu;
 
     public escenario() {
         enemigosCreados = 0;        
