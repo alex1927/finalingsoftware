@@ -228,6 +228,8 @@ public class escenario {
         } else {
             if (jugador1.getVidas() >= 0) {
                 jugador1.revivir();
+            } else {
+                jugador1.stop();
             }
         }
 
@@ -236,6 +238,8 @@ public class escenario {
         } else {
             if (jugador1.getVidas() >= 0) {
                 jugador2.revivir();
+            } else {
+                jugador2.stop();
             }
         }
 

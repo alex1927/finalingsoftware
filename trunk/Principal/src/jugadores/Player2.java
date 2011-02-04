@@ -14,6 +14,7 @@ public class Player2 extends Player {
     private int vidas;
     private long tiempoDeMuerte;
     private boolean hiloVivo;
+    static int esperarMuerte=5000;
 
     public Player2() {
         Tanque =new tanque(true);
@@ -125,7 +126,7 @@ public class Player2 extends Player {
     }
 
     public void revivir(){
-        if( (getTiempoDeMuerte() + 5000) < System.currentTimeMillis() ){
+        if( (getTiempoDeMuerte() + esperarMuerte) < System.currentTimeMillis() ){
             setVivo(true);
             setEsperandoNacer(false);
             PonerPosicionInicial();
@@ -136,8 +137,12 @@ public class Player2 extends Player {
     @Override
     public void run() {
         while (true) {
-            while (esperandoNacer){
-            System.out.println("No hace nada");
+            while (esperandoNacer && vidas>=0){
+                try {
+                    sleep(esperarMuerte +100);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Player1.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
                     && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
