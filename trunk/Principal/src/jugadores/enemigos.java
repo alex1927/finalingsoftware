@@ -11,7 +11,6 @@ public class enemigos extends Players {
     private static final int posY = 5;
     private int posIniX;
     private int posIniY;
-    private boolean vivo;
     private int tipo;
     private long controlDisparo;
 
@@ -28,14 +27,6 @@ public class enemigos extends Players {
         Tanque.setPosY(posIniY);
         Tanque.setDireccion("sur");
         Tanque.setVelocidad(2);
-    }
-
-    public boolean isVivo() {
-        return vivo;
-    }
-
-    public void setVivo(boolean vivo) {
-        this.vivo = vivo;
     }
 
     public int getTipo() {
