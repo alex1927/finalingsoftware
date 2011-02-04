@@ -10,11 +10,51 @@ public class Player1 extends Player {
 
     private final static int posIniX = 285;
     private final static int posIniY = 525;
+    private boolean esperandoNacer;
+    private int vidas;
+    private long tiempoDeMuerte;
+    private boolean hiloVivo;
 
     public Player1() {
         img = new ImageIcon("tanque" + Tanque.getDireccion() + ".gif");
         Tanque.setPosX(posIniX);
         Tanque.setPosY(posIniY);
+        esperandoNacer = false;
+        hiloVivo = true;
+        setVivo(true);
+        vidas = 3;
+    }
+
+    public void PonerPosicionInicial(){
+        Tanque.setPosX(posIniX);
+        Tanque.setPosY(posIniY);
+        Tanque.setDireccion("Norte");
+    }
+
+    public void setHiloVivo(boolean hiloVivo) {
+        this.hiloVivo = hiloVivo;
+    }
+
+
+    public long getTiempoDeMuerte() {
+        return tiempoDeMuerte;
+    }
+
+    public int getVidas() {
+        return vidas;
+    }
+
+    public void restarVidas(){
+        vidas--;
+    }
+
+    public boolean isEsperandoNacer() {
+        return esperandoNacer;
+    }
+
+    public void setEsperandoNacer(boolean esperandoNacer) {
+        this.esperandoNacer = esperandoNacer;
+        tiempoDeMuerte = System.currentTimeMillis();
     }
 
     public int getPosIniX() {
@@ -54,6 +94,7 @@ public class Player1 extends Player {
     }
 
     public void keyPressed(KeyEvent e) {
+        if(!esperandoNacer){
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     Tanque.setDireccion("norte");
@@ -78,11 +119,15 @@ public class Player1 extends Player {
                     }
                     break;
             }
+        }
     }
 
     @Override
     public void run() {
         while (true) {
+            while (esperandoNacer){
+                System.out.println("No hace nada");
+            }
             if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
                     && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
                     && !Tanque.choqueLimiteSur() && !Tanque.choqueLimiteOeste()) {                

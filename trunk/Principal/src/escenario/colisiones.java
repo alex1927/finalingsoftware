@@ -26,8 +26,8 @@ public class colisiones {
     private agua auxAgua;
     private ListIterator iterAgua;
     private Semaforo excMutua;
-    private Player1 P1;
-    private Player2 P2;
+    private Player1 p1;
+    private Player2 p2;
     private enemigos enemies[];
     private Rectangle rEnemy[];
 
@@ -52,11 +52,17 @@ public class colisiones {
         iterLad = lad.listIterator();
         iterAce = ac.listIterator();
         iterAgua = ag.listIterator();
-        this.P1 = P1;
-        this.P2 = P2;
+        this.p1 = P1;
+        this.p2 = P2;
         enemies = enemy;
-        rTanque1 = new Rectangle(P1.getTanque().getPosX(),P1.getTanque().getPosY(),P1.getTanque().getAncho(),P1.getTanque().getAlto());
-        rTanque2 = new Rectangle(P2.getTanque().getPosX(),P2.getTanque().getPosY(),P2.getTanque().getAncho(),P2.getTanque().getAlto());
+        rTanque1 = new Rectangle();
+        rTanque2 = new Rectangle();
+        if(p1.isVivo()){
+            rTanque1 = new Rectangle(P1.getTanque().getPosX(),P1.getTanque().getPosY(),P1.getTanque().getAncho(),P1.getTanque().getAlto());
+        }
+        if(p1.isVivo()){
+            rTanque2 = new Rectangle(P2.getTanque().getPosX(),P2.getTanque().getPosY(),P2.getTanque().getAncho(),P2.getTanque().getAlto());
+        }
 
         for(int j = 0; j < enemy.length ; j++){
             if(enemy[j].isVivo()){
@@ -202,11 +208,18 @@ public class colisiones {
 
     public void borrarTanque(int posX, int posY){
 
-        if(posX==P1.getTanque().getPosX() && posY == P1.getTanque().getPosY()){
-            P1.stop();
+        if(posX==p1.getTanque().getPosX() && posY == p1.getTanque().getPosY()){
+            p1.setHiloVivo(false);
+            p1.setVivo(false);
+            p1.setEsperandoNacer(true);
+            p1.restarVidas();
         }
-        if(posX==P2.getTanque().getPosX() && posY == P2.getTanque().getPosY()){
-            P2.stop();
+
+        if(posX==p2.getTanque().getPosX() && posY == p2.getTanque().getPosY()){
+            p2.setHiloVivo(false);
+            p2.setVivo(false);
+            p2.setEsperandoNacer(true);
+            p2.restarVidas();
         }
 
         for(int j=0;j<enemies.length;j++){
