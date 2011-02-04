@@ -9,6 +9,7 @@ public class Players extends Thread {
     private boolean DISPARO = false;
     protected ImageIcon img;
     protected colisiones monitor;
+    private boolean vivo;
 
     public Players() {
         Tanque = new tanque();
@@ -98,6 +99,14 @@ public class Players extends Thread {
                 getTanque().getBala().setFlag(false);
             }
         }
+    }
+
+    public boolean isVivo() {
+        return vivo;
+    }
+
+    public void setVivo(boolean vivo) {
+        this.vivo = vivo;
     }
 
     @Override

@@ -75,8 +75,11 @@ public class escenario {
     }
 
     public final void escribirMatrizInicial() {
-        matriz = new int[][]{{INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES},
-                    {INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES},
+        matriz = new int[][]{
+                    {INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES},
+                    {INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES},
+                    {INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES},
+                    {INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES,},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -97,12 +100,10 @@ public class escenario {
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, 2, 2, 4, 4, 2, 2, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, 2, 2, 4, 4, 2, 2, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES,INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, 2, 2, 2, 2, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, 2, 4, 4, 2,INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES,INTOCABLES, 2, 4, 4, 2, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     }
 
     public final void generarEscenarioAleatorio() {
