@@ -49,13 +49,13 @@ public class escenario {
     private int pruebaAgu;
 
     public escenario() {
-        enemigosCreados = 0;        
+        enemigosCreados = 0;
         eagle = new aguila();
         jugador1 = new Player1();
         jugador2 = new Player2();
         enemy = new enemigos[18];
-        for (int i = 0; i < enemy.length; i++){
-            enemy[i] = new enemigos(i%3);
+        for (int i = 0; i < enemy.length; i++) {
+            enemy[i] = new enemigos(i % 3);
         }
         steelList = new LinkedList();
         brickList = new LinkedList();
@@ -100,10 +100,10 @@ public class escenario {
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES,INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, 2, 2, 2, 2, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, 2, 4, 4, 2,INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES,INTOCABLES, 2, 4, 4, 2, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, 2, 4, 4, 2, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, 2, 4, 4, 2, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     }
 
     public final void generarEscenarioAleatorio() {
@@ -203,10 +203,10 @@ public class escenario {
     }
 
     public void actualizoEscenario() {
-        monitor = new colisiones(this.brickList, this.steelList, this.waterList,jugador1,jugador2,enemy);
+        monitor = new colisiones(this.brickList, this.steelList, this.waterList, jugador1, jugador2, enemy);
         jugador1.Players(monitor);
         jugador2.Players(monitor);
-        for(int i = 0; i < enemy.length ; i++){
+        for (int i = 0; i < enemy.length; i++) {
             enemy[i].Players(monitor);
         }
     }
@@ -223,29 +223,24 @@ public class escenario {
             auxWater.dibujar(g, auxWater.getPosX(), auxWater.getPosY());
         }
 
-        if(jugador1.isVivo()){
+        if (jugador1.isVivo()) {
             jugador1.dibujar(g, jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY());
+        } else {
+            if (jugador1.getVidas() >= 0) {
+                jugador1.revivir();
+            }
         }
-        else if( (jugador1.getTiempoDeMuerte() + 5000) < System.currentTimeMillis() ){
-            jugador1.setVivo(true);
-            jugador1.setEsperandoNacer(false);
-            jugador1.PonerPosicionInicial();
-            //jugador1.setHiloVivo(true);
-        }
-        
-        if(jugador2.isVivo()){
+
+        if (jugador2.isVivo()) {
             jugador2.dibujar(g, jugador2.getTanque().getPosX(), jugador2.getTanque().getPosY());
+        } else {
+            if (jugador1.getVidas() >= 0) {
+                jugador2.revivir();
+            }
         }
 
-        else if( (jugador2.getTiempoDeMuerte() + 5000) < System.currentTimeMillis() ){
-            jugador2.setVivo(true);
-            jugador2.setEsperandoNacer(false);
-            jugador2.PonerPosicionInicial();
-            //jugador2.setHiloVivo(true);
-        }
-
-        for(int i = 0; i < enemy.length ; i++){
-            if(enemy[i].isVivo()){
+        for (int i = 0; i < enemy.length; i++) {
+            if (enemy[i].isVivo()) {
                 enemy[i].dibujar(g, enemy[i].getTanque().getPosX(), enemy[i].getTanque().getPosY());
             }
         }
@@ -272,6 +267,7 @@ public class escenario {
         eagle.dibujar(g);
 
     }
+
     /***************************************************************************
      *****************************Teclado **************************************
      ***************************************************************************/
@@ -289,13 +285,14 @@ public class escenario {
         jugador1.keyTyped(e);
         jugador2.keyTyped(e);
     }
+
     /***************************************************************************
      **************************** Control de balas *****************************
      ***************************************************************************/
     public void controlBala() {
         jugador1.controlBala();
         jugador2.controlBala();
-        for (int i = 0; i < enemy.length; i++){
+        for (int i = 0; i < enemy.length; i++) {
             enemy[i].controlBala();
         }
     }
@@ -303,7 +300,7 @@ public class escenario {
     public void endBala() {
         jugador1.endBala();
         jugador2.endBala();
-        for (int i = 0; i < enemy.length; i++){
+        for (int i = 0; i < enemy.length; i++) {
             enemy[i].endBala();
         }
     }
@@ -311,15 +308,15 @@ public class escenario {
     public void limiteBala() {
         jugador1.limiteBala();
         jugador2.limiteBala();
-        for (int i = 0; i < enemy.length; i++){
+        for (int i = 0; i < enemy.length; i++) {
             enemy[i].limiteBala();
         }
     }
 
     public void llegoFinDeJuego() {
         boolean enemigoTocoAguila = true;
-        for(int i = 0; i < enemy.length ; i++){
-            if (!enemy[i].isNoTocoAguila()){
+        for (int i = 0; i < enemy.length; i++) {
+            if (!enemy[i].isNoTocoAguila()) {
                 enemigoTocoAguila = false;
             }
         }
@@ -341,14 +338,11 @@ public class escenario {
         this.enemigosCreados = enemigosCreados;
     }
 
-    
-    public void crearEnemigo(){
-        if(this.enemigosCreados < this.enemy.length){
+    public void crearEnemigo() {
+        if (this.enemigosCreados < this.enemy.length) {
             enemy[enemigosCreados].start();
             enemy[enemigosCreados].setVivo(true);
-            enemigosCreados ++;
+            enemigosCreados++;
         }
     }
-
-
 }

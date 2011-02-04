@@ -60,7 +60,7 @@ public class colisiones {
         if(p1.isVivo()){
             rTanque1 = new Rectangle(P1.getTanque().getPosX(),P1.getTanque().getPosY(),P1.getTanque().getAncho(),P1.getTanque().getAlto());
         }
-        if(p1.isVivo()){
+        if(p2.isVivo()){
             rTanque2 = new Rectangle(P2.getTanque().getPosX(),P2.getTanque().getPosY(),P2.getTanque().getAncho(),P2.getTanque().getAlto());
         }
 

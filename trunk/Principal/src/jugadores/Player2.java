@@ -124,6 +124,15 @@ public class Player2 extends Player {
         }
     }
 
+    public void revivir(){
+        if( (getTiempoDeMuerte() + 5000) < System.currentTimeMillis() ){
+            setVivo(true);
+            setEsperandoNacer(false);
+            PonerPosicionInicial();
+            //jugador2.setHiloVivo(true);
+        }
+    }
+
     @Override
     public void run() {
         while (true) {
