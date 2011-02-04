@@ -47,7 +47,7 @@ public class colisiones {
         rLadrillos = new Rectangle[lad.size()];
         rAguas = new Rectangle[ag.size()];
         rAceros = new Rectangle[ac.size()];
-        rAguila = new Rectangle (360,520,40,40);
+        rAguila = new Rectangle(360, 520, 40, 40);
         // Iteradores
         iterLad = lad.listIterator();
         iterAce = ac.listIterator();
@@ -57,17 +57,17 @@ public class colisiones {
         enemies = enemy;
         rTanque1 = new Rectangle();
         rTanque2 = new Rectangle();
-        if(p1.isVivo()){
-            rTanque1 = new Rectangle(P1.getTanque().getPosX(),P1.getTanque().getPosY(),P1.getTanque().getAncho(),P1.getTanque().getAlto());
+        if (p1.isVivo()) {
+            rTanque1 = new Rectangle(P1.getTanque().getPosX(), P1.getTanque().getPosY(), P1.getTanque().getAncho(), P1.getTanque().getAlto());
         }
-        if(p2.isVivo()){
-            rTanque2 = new Rectangle(P2.getTanque().getPosX(),P2.getTanque().getPosY(),P2.getTanque().getAncho(),P2.getTanque().getAlto());
+        if (p2.isVivo()) {
+            rTanque2 = new Rectangle(P2.getTanque().getPosX(), P2.getTanque().getPosY(), P2.getTanque().getAncho(), P2.getTanque().getAlto());
         }
 
-        for(int j = 0; j < enemy.length ; j++){
-            if(enemy[j].isVivo()){
-                rEnemy[j] = new Rectangle(enemy[j].getTanque().getPosX(),enemy[j].getTanque().getPosY(),enemy[j].getTanque().getAncho(),enemy[j].getTanque().getAlto());
-            }else{
+        for (int j = 0; j < enemy.length; j++) {
+            if (enemy[j].isVivo()) {
+                rEnemy[j] = new Rectangle(enemy[j].getTanque().getPosX(), enemy[j].getTanque().getPosY(), enemy[j].getTanque().getAncho(), enemy[j].getTanque().getAlto());
+            } else {
                 rEnemy[j] = new Rectangle();
             }
         }
@@ -92,25 +92,24 @@ public class colisiones {
     }
     /*FIN DEL CONSTRUCTOR*/
 
-    public synchronized boolean mover(int posX, int posY, int Ancho, int Alto){
+    public synchronized boolean mover(int posX, int posY, int Ancho, int Alto) {
         boolean flag = false;
         excMutua.Wait();
-        if(!hayColisionConLadrillo(posX,posY,Alto,Ancho)&&
-            !hayColisionConAgua(posX,posY,Alto,Ancho)&&
-                !hayColisionConAcero(posX,posY,Alto,Ancho) &&
-                !hayColisionTanqueConTanque(posX,posY,Alto,Ancho)
-                ){
-                flag = true;
+        if (!hayColisionConLadrillo(posX, posY, Alto, Ancho)
+                && !hayColisionConAgua(posX, posY, Alto, Ancho)
+                && !hayColisionConAcero(posX, posY, Alto, Ancho)
+                && !hayColisionTanqueConTanque(posX, posY, Alto, Ancho)) {
+            flag = true;
         }
         excMutua.Signal();
         return flag;
     }
 
-   public boolean hayColisionConAguila(int posX, int posY, int Ancho, int Alto){
+    public boolean hayColisionConAguila(int posX, int posY, int Ancho, int Alto) {
         boolean flag = false;
         auxGral = new Rectangle(posX, posY, Ancho, Alto);
-        if(auxGral.intersects(rAguila)){
-            flag= true;
+        if (auxGral.intersects(rAguila)) {
+            flag = true;
         }
         return flag;
     }
@@ -146,86 +145,85 @@ public class colisiones {
             }
         }
         return flag;
-    }    
+    }
 
-    public boolean hayColisionBalaConTanqueEnemigo(int posX, int posY,int Ancho, int Alto ){
+    public boolean hayColisionBalaConTanqueEnemigo(int posX, int posY, int Ancho, int Alto) {
         boolean flag = false;
         auxGral = new Rectangle(posX, posY, Ancho, Alto);
-        if(auxGral.intersects(rAguila)){
-            flag= true;
+        if (auxGral.intersects(rAguila)) {
+            flag = true;
         }
         return flag;
     }
 
-    public void borrarLadrillo(int posX, int posY, int Ancho, int Alto){
-         Rectangle aux1,aux2;
-         ListIterator aux;
-         ladrillo brick;
-         aux = lad.listIterator();
-         aux1 = new Rectangle(posX,posY,Ancho,Alto);
-          while(aux.hasNext()){
+    public void borrarLadrillo(int posX, int posY, int Ancho, int Alto) {
+        Rectangle aux1, aux2;
+        ListIterator aux;
+        ladrillo brick;
+        aux = lad.listIterator();
+        aux1 = new Rectangle(posX, posY, Ancho, Alto);
+        while (aux.hasNext()) {
             brick = (ladrillo) aux.next();
-            aux2 = new Rectangle (brick.getPosX(),brick.getPosY(),brick.getAlto(),brick.getAncho());
-            if(aux1.intersects(aux2)){
+            aux2 = new Rectangle(brick.getPosX(), brick.getPosY(), brick.getAlto(), brick.getAncho());
+            if (aux1.intersects(aux2)) {
                 aux.remove();
             }
         }
     }
 
-     public void borrarAcero(int posX, int posY, int Ancho, int Alto){
-         Rectangle aux1,aux2;
-         ListIterator aux;
-         acero steel;
-         aux = ac.listIterator();
-         aux1 = new Rectangle(posX,posY,Ancho,Alto);
-          while(aux.hasNext()){
+    public void borrarAcero(int posX, int posY, int Ancho, int Alto) {
+        Rectangle aux1, aux2;
+        ListIterator aux;
+        acero steel;
+        aux = ac.listIterator();
+        aux1 = new Rectangle(posX, posY, Ancho, Alto);
+        while (aux.hasNext()) {
             steel = (acero) aux.next();
-            aux2 = new Rectangle (steel.getPosX(),steel.getPosY(),steel.getAlto(),steel.getAncho());
-            if(aux1.intersects(aux2)){
+            aux2 = new Rectangle(steel.getPosX(), steel.getPosY(), steel.getAlto(), steel.getAncho());
+            if (aux1.intersects(aux2)) {
                 aux.remove();
             }
         }
     }
 
-     public boolean hayColisionBalaTanque(int posX, int posY, int Ancho, int Alto, boolean amigo) {
+    public boolean hayColisionBalaTanque(int posX, int posY, int Ancho, int Alto, boolean amigo) {
         boolean flag = false;
         rBala = new Rectangle(posX, posY, Ancho, Alto);
         if (rBala.intersects(rTanque1)) {
             flag = true;
-            borrarTanque((int)rTanque1.getX(),(int)rTanque1.getY(), amigo);
+            borrarTanque((int) rTanque1.getX(), (int) rTanque1.getY(), amigo);
         }
         if (rBala.intersects(rTanque2)) {
             flag = true;
-            borrarTanque((int)rTanque2.getX(),(int)rTanque2.getY(), amigo);
+            borrarTanque((int) rTanque2.getX(), (int) rTanque2.getY(), amigo);
         }
         for (int j = 0; j < rEnemy.length; j++) {
             if (rBala.intersects(rEnemy[j])) {
                 flag = true;
-                borrarTanque((int)rEnemy[j].getX(),(int)rEnemy[j].getY(), amigo);
+                borrarTanque((int) rEnemy[j].getX(), (int) rEnemy[j].getY(), amigo);
             }
         }
         return flag;
     }
 
+    public void borrarTanque(int posX, int posY, boolean amigo) {
 
-    public void borrarTanque(int posX, int posY, boolean amigo){
-
-        if(posX==p1.getTanque().getPosX() && posY == p1.getTanque().getPosY() && !amigo){
+        if (posX == p1.getTanque().getPosX() && posY == p1.getTanque().getPosY() && !amigo) {
             p1.setHiloVivo(false);
             p1.setVivo(false);
             p1.setEsperandoNacer(true);
             p1.restarVidas();
         }
 
-        if(posX==p2.getTanque().getPosX() && posY == p2.getTanque().getPosY() && !amigo){
+        if (posX == p2.getTanque().getPosX() && posY == p2.getTanque().getPosY() && !amigo) {
             p2.setHiloVivo(false);
             p2.setVivo(false);
             p2.setEsperandoNacer(true);
             p2.restarVidas();
         }
 
-        for(int j=0;j<enemies.length;j++){
-            if(posX==enemies[j].getTanque().getPosX() && posY == enemies[j].getTanque().getPosY() && amigo){
+        for (int j = 0; j < enemies.length; j++) {
+            if (posX == enemies[j].getTanque().getPosX() && posY == enemies[j].getTanque().getPosY() && amigo) {
                 enemies[j].stop();
                 enemies[j].setVivo(false);
             }
@@ -245,10 +243,49 @@ public class colisiones {
         for (int j = 0; j < enemies.length; j++) {
             if (auxGral.intersects(rEnemy[j]) && posX != enemies[j].getTanque().getPosX()
                     && posY != enemies[j].getTanque().getPosY() && enemies[j].isVivo()) {
-                flag=true;
+                flag = true;
             }
         }
         return flag;
     }
 
+    public boolean hayColisionBalaBala(int posX, int posY, int Ancho, int Alto) {
+        boolean flag = false;
+
+        rBala = new Rectangle(posX, posY, Ancho, Alto);
+
+        if (p1.getDisparo() && p1.isVivo()) {
+            auxGral.setRect(p1.getTanque().getBala().getPosX(), p1.getTanque().getBala().getPosY(), p1.getTanque().getBala().getAncho(), p1.getTanque().getBala().getAlto());
+            if (rBala.intersects(auxGral) && rBala.getX() != auxGral.getX() && rBala.getY() != auxGral.getY()) {
+                System.out.println("entre p1");
+                p1.endBala();
+                p1.setDisparo(false);
+                return true;
+            }
+        }
+
+        if (p2.getDisparo() && p2.isVivo()) {
+            auxGral.setRect(p2.getTanque().getBala().getPosX(), p2.getTanque().getBala().getPosY(), p2.getTanque().getBala().getAncho(), p2.getTanque().getBala().getAlto());
+            if (rBala.intersects(auxGral) && rBala.getX() != auxGral.getX() && rBala.getY() != auxGral.getY()) {
+                System.out.println("entre p2");
+                p2.endBala();
+                p2.setDisparo(false);
+                return true;
+            }
+        }
+
+        for (int j = 0; j < enemies.length; j++) {
+            if (enemies[j].getDisparo() && enemies[j].isVivo() ) {
+                auxGral.setRect(enemies[j].getTanque().getBala().getPosX(), enemies[j].getTanque().getBala().getPosY(), enemies[j].getTanque().getBala().getAncho(), enemies[j].getTanque().getBala().getAlto());
+                if (rBala.intersects(auxGral) && rBala.getX() != auxGral.getX() && rBala.getY() != auxGral.getY()) {
+                    System.out.println("entre enemy"+j);
+                    enemies[j].endBala();
+                    enemies[j].setDisparo(false);
+                    return true;
+                }
+            }
+        }
+
+        return flag;
+    }
 }

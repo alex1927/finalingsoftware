@@ -13,6 +13,7 @@ public class enemigos extends Players {
     private int posIniY;
     private int tipo;
     private long controlDisparo;
+    private long regularCambioDireccion;
 
     public enemigos(int ubicacion) {
         Tanque =new tanque(false);
@@ -28,6 +29,7 @@ public class enemigos extends Players {
         Tanque.setPosY(posIniY);
         Tanque.setDireccion("sur");
         Tanque.setVelocidad(2);
+        regularCambioDireccion = System.currentTimeMillis();
     }
 
     public int getTipo() {
@@ -54,6 +56,7 @@ public class enemigos extends Players {
             if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
                     && !getTanque().choqueLimiteEste() && !getTanque().choqueLimiteOeste() && !getTanque().choqueLimiteNorte()
                     && !getTanque().choqueLimiteSur()) {
+                getTanque().setDireccion(cambiarDireccion(getTanque().getDireccion()));//AAAAAAAAAAAAA
                 this.moverse();
             } else {
                 this.antiColisiones();
@@ -95,5 +98,18 @@ public class enemigos extends Players {
         return dir;
     }
 
-
+        public String cambiarDireccion(String direccion) {
+        int aux;
+        String direcAux;
+        if (regularCambioDireccion + 2000 < System.currentTimeMillis()) {
+            aux = (int) (Math.random() * 75 + 1);
+            if (aux < 30) {
+                direcAux = this.IA(direccion);
+                
+                return direcAux;
+            }
+            regularCambioDireccion = System.currentTimeMillis();
+        }
+        return direccion;
+    }
 }
