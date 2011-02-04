@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 
 public class Players extends Thread {
 
-    tanque Tanque;
+    protected tanque Tanque;
     private boolean noTocoAguila = true;
     private boolean DISPARO = false;
     protected ImageIcon img;

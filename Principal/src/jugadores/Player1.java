@@ -26,6 +26,7 @@ public class Player1 extends Player {
         vidas = 3;
     }
 
+
     public void PonerPosicionInicial(){
         Tanque.setPosX(posIniX);
         Tanque.setPosY(posIniY);
@@ -123,11 +124,21 @@ public class Player1 extends Player {
         }
     }
 
+    public void revivir(){
+        if( (getTiempoDeMuerte() + 5000) < System.currentTimeMillis() ){
+            setVivo(true);
+            setEsperandoNacer(false);
+            PonerPosicionInicial();
+            //jugador2.setHiloVivo(true);
+        }
+    }
+
+
     @Override
     public void run() {
         while (true) {
             while (esperandoNacer){
-                System.out.println("No hace nada");
+                
             }
             if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
                     && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
@@ -142,5 +153,7 @@ public class Player1 extends Player {
                 Logger.getLogger(Player2.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }    
+    }
+
+
 }
