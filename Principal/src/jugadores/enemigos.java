@@ -15,6 +15,7 @@ public class enemigos extends Players {
     private long controlDisparo;
 
     public enemigos(int ubicacion) {
+        Tanque =new tanque(false);
         tipo = ubicacion;
         controlDisparo = System.currentTimeMillis();
         posX = new int[3];

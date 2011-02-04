@@ -16,6 +16,7 @@ public class Player2 extends Player {
     private boolean hiloVivo;
 
     public Player2() {
+        Tanque =new tanque(true);
         img = new ImageIcon("tanque2" + Tanque.getDireccion() + ".gif");
         Tanque.setPosX(posIniX);
         Tanque.setPosY(posIniY);

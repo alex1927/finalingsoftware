@@ -12,7 +12,7 @@ public class Players extends Thread {
     private boolean vivo;
 
     public Players() {
-        Tanque = new tanque();
+        
     }
 
     public void Players(colisiones monitor) {
@@ -71,7 +71,8 @@ public class Players extends Thread {
             if (monitor.hayColisionBalaTanque(getTanque().getBala().getPosX(),
                     getTanque().getBala().getPosY(),
                     getTanque().getBala().getAlto(),
-                    getTanque().getBala().getAncho())) {
+                    getTanque().getBala().getAncho(),
+                    getTanque().isAmigo())) {
                 endBala();
                 setDisparo(false);
 
