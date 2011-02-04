@@ -147,15 +147,6 @@ public class colisiones {
         return flag;
     }
 
-    public boolean hayColisionBalaConTanqueEnemigo(int posX, int posY, int Ancho, int Alto) {
-        boolean flag = false;
-        auxGral = new Rectangle(posX, posY, Ancho, Alto);
-        if (auxGral.intersects(rAguila)) {
-            flag = true;
-        }
-        return flag;
-    }
-
     public void borrarLadrillo(int posX, int posY, int Ancho, int Alto) {
         Rectangle aux1, aux2;
         ListIterator aux;

@@ -98,18 +98,20 @@ public class enemigos extends Players {
         return dir;
     }
 
-        public String cambiarDireccion(String direccion) {
+
+    public String cambiarDireccion(String direccion) {
         int aux;
         String direcAux;
         if (regularCambioDireccion + 2000 < System.currentTimeMillis()) {
-            aux = (int) (Math.random() * 75 + 1);
-            if (aux < 30) {
+            aux = (int) (Math.random() * 100 + 1);
+            if (aux < 2) {
                 direcAux = this.IA(direccion);
-                
+                regularCambioDireccion = System.currentTimeMillis();
                 return direcAux;
             }
-            regularCambioDireccion = System.currentTimeMillis();
         }
         return direccion;
     }
+
+
 }
