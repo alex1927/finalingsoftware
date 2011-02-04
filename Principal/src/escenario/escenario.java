@@ -222,8 +222,27 @@ public class escenario {
             auxWater = (agua) iterWater.next();
             auxWater.dibujar(g, auxWater.getPosX(), auxWater.getPosY());
         }
-        jugador1.dibujar(g, jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY());
-        jugador2.dibujar(g, jugador2.getTanque().getPosX(), jugador2.getTanque().getPosY());
+
+        if(jugador1.isVivo()){
+            jugador1.dibujar(g, jugador1.getTanque().getPosX(), jugador1.getTanque().getPosY());
+        }
+        else if( (jugador1.getTiempoDeMuerte() + 5000) < System.currentTimeMillis() ){
+            jugador1.setVivo(true);
+            jugador1.setEsperandoNacer(false);
+            jugador1.PonerPosicionInicial();
+            //jugador1.setHiloVivo(true);
+        }
+        
+        if(jugador2.isVivo()){
+            jugador2.dibujar(g, jugador2.getTanque().getPosX(), jugador2.getTanque().getPosY());
+        }
+
+        else if( (jugador2.getTiempoDeMuerte() + 5000) < System.currentTimeMillis() ){
+            jugador2.setVivo(true);
+            jugador2.setEsperandoNacer(false);
+            jugador2.PonerPosicionInicial();
+            //jugador2.setHiloVivo(true);
+        }
 
         for(int i = 0; i < enemy.length ; i++){
             if(enemy[i].isVivo()){
