@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 
 public class tanque implements limites {
 
+    private boolean amigo;
     private final static int ANCHO = 30;
     private final static int ALTO = 30;
     private int velocidad;
@@ -14,7 +15,8 @@ public class tanque implements limites {
     private bala bullet;
     private ImageIcon img;
 
-    public tanque() {
+    public tanque(boolean amigo) {
+        this.amigo = amigo;
         direccion = "norte";
         velocidad = 0;
         posX = 0;
@@ -22,6 +24,16 @@ public class tanque implements limites {
         img = new ImageIcon("bala.gif");
 
     }
+
+    public boolean isAmigo() {
+        return amigo;
+    }
+
+    public void setAmigo(boolean amigo) {
+        this.amigo = amigo;
+    }
+
+
 
     public String getDireccion() {
         return direccion;
