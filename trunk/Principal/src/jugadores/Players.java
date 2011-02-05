@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 
 public class Players extends Thread {
 
+    int id;
     protected tanque Tanque;
     private boolean noTocoAguila = true;
     private boolean DISPARO = false;
@@ -12,14 +13,30 @@ public class Players extends Thread {
     protected colisiones monitor;
     private boolean vivo;
     private Semaforo excMutua;
+    public Players(){
+    }
 
-    public Players() {
+    public Players(int id) {
+        this.Players(id);
         
     }
+
+    public void Players(int id){
+        this.id=id;
+    }
+
 
     public void Players(colisiones monitor) {
         excMutua = new Semaforo(1);
         this.monitor = monitor;
+    }
+
+    public int getsId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isNoTocoAguila() {
@@ -45,60 +62,31 @@ public class Players extends Thread {
     public void controlBala() {
         excMutua.Wait();
         if (getDisparo()) {
-            if (monitor.hayColisionConLadrillo(
-                    getTanque().getBala().getPosX(),
-                    getTanque().getBala().getPosY(),
-                    getTanque().getBala().getAlto(),
-                    getTanque().getBala().getAncho()
-                    )) {
-                monitor.borrarLadrillo(getTanque().getBala().getPosX(),
-                        getTanque().getBala().getPosY(),
-                        getTanque().getBala().getAlto(),
-                        getTanque().getBala().getAncho());
+            if (monitor.hayColisionBalaConLadrillo(getsId())) {
+                monitor.borrarLadrillo(getsId());
                 endBala();
                 setDisparo(false);
             }
-
-            if (monitor.hayColisionConAcero(getTanque().getBala().getPosX(),
-                    getTanque().getBala().getPosY(),
-                    getTanque().getBala().getAlto(),
-                    getTanque().getBala().getAncho())) {
-                monitor.borrarAcero(getTanque().getBala().getPosX(),
-                        getTanque().getBala().getPosY(),
-                        getTanque().getBala().getAlto(),
-                        getTanque().getBala().getAncho());
+            if (monitor.hayColisionBalaConAcero(getsId())) {
+                monitor.borrarAcero(getsId());
                 endBala();
                 setDisparo(false);
-
             }
-
-            if (monitor.hayColisionBalaTanque(getTanque().getBala().getPosX(),
-                    getTanque().getBala().getPosY(),
-                    getTanque().getBala().getAlto(),
-                    getTanque().getBala().getAncho(),
-                    getTanque().isAmigo())) {
+            if (monitor.hayColisionBalaConTanque(getsId())) {
                 endBala();
                 setDisparo(false);
-
             }
-
-            if (monitor.hayColisionConAguila(getTanque().getBala().getPosX(),
-                    getTanque().getBala().getPosY(),
-                    getTanque().getBala().getAlto(),
-                    getTanque().getBala().getAncho())) {
+         
+ 
+            if (monitor.hayColisionBalaConAguila(getsId())) {
                 noTocoAguila = false;
                 endBala();
                 setDisparo(false);
             }
-
-             if (monitor.hayColisionBalaBala(getTanque().getBala().getPosX(),
-                    getTanque().getBala().getPosY(),
-                    getTanque().getBala().getAlto(),
-                    getTanque().getBala().getAncho())) {
+             if (monitor.hayColisionBalaConBala(getsId())) {
                 endBala();
                 setDisparo(false);
-            
-        }
+            }
     }
         excMutua.Signal();
     }
@@ -159,6 +147,6 @@ public class Players extends Thread {
     }
 
     public boolean mover(){
-        return monitor.mover(getTanque().getPosX(),getTanque().getPosY(),getTanque().getAncho(),getTanque().getAlto());
+        return monitor.mover(getsId());
     }
 }

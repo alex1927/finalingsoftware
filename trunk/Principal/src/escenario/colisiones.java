@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import jugadores.Player1;
 import jugadores.Player2;
 import jugadores.enemigos;
+import jugadores.tanque;
 
 public class colisiones {
 
@@ -92,31 +93,39 @@ public class colisiones {
     }
     /*FIN DEL CONSTRUCTOR*/
 
-    public synchronized boolean mover(int posX, int posY, int Ancho, int Alto) {
+    public synchronized boolean mover(int id) {
         boolean flag = false;
         excMutua.Wait();
-        if (!hayColisionConLadrillo(posX, posY, Alto, Ancho)
-                && !hayColisionConAgua(posX, posY, Alto, Ancho)
-                && !hayColisionConAcero(posX, posY, Alto, Ancho)
-                && !hayColisionTanqueConTanque(posX, posY, Alto, Ancho)) {
+        if (!hayColisionTanqueConLadrillo(id)
+                && !hayColisionTanqueConAgua(id)
+                && !hayColisionTanqueConAcero(id)
+                && !hayColisionTanqueConAguila(id)
+                && !hayColisionTanqueConTanque(id)
+                ) {
             flag = true;
         }
         excMutua.Signal();
         return flag;
     }
+    
 
-    public boolean hayColisionConAguila(int posX, int posY, int Ancho, int Alto) {
+
+    public boolean hayColisionTanqueConAguila(int id) {
         boolean flag = false;
-        auxGral = new Rectangle(posX, posY, Ancho, Alto);
+        auxGral = obtenerTanque(id);
         if (auxGral.intersects(rAguila)) {
             flag = true;
         }
         return flag;
     }
 
-    public boolean hayColisionConLadrillo(int posX, int posY, int Ancho, int Alto) {
+    public boolean hayColisionTanqueConLadrillo(int id) {
+
+
+        auxGral = obtenerTanque(id);
+
         boolean flag = false;
-        auxGral = new Rectangle(posX, posY, Ancho, Alto);
+
         for (int i = 0; i < rLadrillos.length; i++) {
             if (auxGral.intersects(rLadrillos[i])) {
                 flag = true;
@@ -125,9 +134,10 @@ public class colisiones {
         return flag;
     }
 
-    public boolean hayColisionConAcero(int posX, int posY, int Ancho, int Alto) {
+    public boolean hayColisionTanqueConAcero(int id) {
+
         boolean flag = false;
-        auxGral = new Rectangle(posX, posY, Ancho, Alto);
+        auxGral = obtenerTanque(id);
         for (int i = 0; i < rAceros.length; i++) {
             if (auxGral.intersects(rAceros[i])) {
                 flag = true;
@@ -136,9 +146,9 @@ public class colisiones {
         return flag;
     }
 
-    public boolean hayColisionConAgua(int posX, int posY, int Ancho, int Alto) {
+    public boolean hayColisionTanqueConAgua(int id) {
         boolean flag = false;
-        auxGral = new Rectangle(posX, posY, Ancho, Alto);
+        auxGral = obtenerTanque(id);
         for (int i = 0; i < rAguas.length; i++) {
             if (auxGral.intersects(rAguas[i])) {
                 flag = true;
@@ -147,12 +157,47 @@ public class colisiones {
         return flag;
     }
 
-    public void borrarLadrillo(int posX, int posY, int Ancho, int Alto) {
+    public boolean hayColisionBalaConAguila(int id) {
+        boolean flag = false;
+        auxGral = obtenerBala(id);
+        if (auxGral.intersects(rAguila)) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    public boolean hayColisionBalaConAcero(int id) {
+        boolean flag = false;
+        auxGral = obtenerBala(id);
+        for (int i = 0; i < rAceros.length; i++) {
+            if (auxGral.intersects(rAceros[i])) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    public boolean hayColisionBalaConLadrillo(int id) {
+
+
+        auxGral = obtenerBala(id);
+
+        boolean flag = false;
+
+        for (int i = 0; i < rLadrillos.length; i++) {
+            if (auxGral.intersects(rLadrillos[i])) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    public void borrarLadrillo(int id) {
         Rectangle aux1, aux2;
         ListIterator aux;
         ladrillo brick;
         aux = lad.listIterator();
-        aux1 = new Rectangle(posX, posY, Ancho, Alto);
+        aux1 = obtenerBala(id);
         while (aux.hasNext()) {
             brick = (ladrillo) aux.next();
             aux2 = new Rectangle(brick.getPosX(), brick.getPosY(), brick.getAlto(), brick.getAncho());
@@ -162,12 +207,12 @@ public class colisiones {
         }
     }
 
-    public void borrarAcero(int posX, int posY, int Ancho, int Alto) {
+    public void borrarAcero(int id) {
         Rectangle aux1, aux2;
         ListIterator aux;
         acero steel;
         aux = ac.listIterator();
-        aux1 = new Rectangle(posX, posY, Ancho, Alto);
+        aux1 = obtenerBala(id);
         while (aux.hasNext()) {
             steel = (acero) aux.next();
             aux2 = new Rectangle(steel.getPosX(), steel.getPosY(), steel.getAlto(), steel.getAncho());
@@ -177,73 +222,116 @@ public class colisiones {
         }
     }
 
-    public boolean hayColisionBalaTanque(int posX, int posY, int Ancho, int Alto, boolean amigo) {
+    public boolean hayColisionBalaConTanque(int id) {
         boolean flag = false;
-        rBala = new Rectangle(posX, posY, Ancho, Alto);
+        rBala = obtenerBala(id);
         if (rBala.intersects(rTanque1)) {
             flag = true;
-            borrarTanque((int) rTanque1.getX(), (int) rTanque1.getY(), amigo);
+            if ((int) rTanque1.getX() == p1.getTanque().getPosX() && (int) rTanque1.getY() == p1.getTanque().getPosY() && id < 100) {
+                System.out.println("murio p1");
+                p1.setHiloVivo(false);
+                p1.setVivo(false);
+                p1.setEsperandoNacer(true);
+                p1.restarVidas();
+
+            }
+            // borrarTanque((int) rTanque1.getX(), (int) rTanque1.getY(), id);
         }
         if (rBala.intersects(rTanque2)) {
             flag = true;
-            borrarTanque((int) rTanque2.getX(), (int) rTanque2.getY(), amigo);
+            if ((int) rTanque2.getX() == p2.getTanque().getPosX() && (int) rTanque2.getY() == p2.getTanque().getPosY() && id < 100) {
+                System.out.println("murio p1");
+                p1.setHiloVivo(false);
+                p1.setVivo(false);
+                p1.setEsperandoNacer(true);
+                p1.restarVidas();
+
+            }
+            //borrarTanque((int) rTanque2.getX(), (int) rTanque2.getY(), id );
         }
         for (int j = 0; j < rEnemy.length; j++) {
             if (rBala.intersects(rEnemy[j])) {
                 flag = true;
-                borrarTanque((int) rEnemy[j].getX(), (int) rEnemy[j].getY(), amigo);
+                if ((int) rEnemy[j].getX() == enemies[j].getTanque().getPosX() && (int) rEnemy[j].getY() == enemies[j].getTanque().getPosY() && id > 100) {
+                    System.out.println(" murio " + j);
+                    enemies[j].stop();
+                    enemies[j].setVivo(false);
+                    //borrarTanque( rEnemy[j].getX(), (int) rEnemy[j].getY(),id);
+                }
             }
         }
         return flag;
     }
 
-    public void borrarTanque(int posX, int posY, boolean amigo) {
-
-        if (posX == p1.getTanque().getPosX() && posY == p1.getTanque().getPosY() && !amigo) {
-            p1.setHiloVivo(false);
-            p1.setVivo(false);
-            p1.setEsperandoNacer(true);
-            p1.restarVidas();
-        }
-
-        if (posX == p2.getTanque().getPosX() && posY == p2.getTanque().getPosY() && !amigo) {
-            p2.setHiloVivo(false);
-            p2.setVivo(false);
-            p2.setEsperandoNacer(true);
-            p2.restarVidas();
-        }
-
-        for (int j = 0; j < enemies.length; j++) {
-            if (posX == enemies[j].getTanque().getPosX() && posY == enemies[j].getTanque().getPosY() && amigo) {
-                enemies[j].stop();
-                enemies[j].setVivo(false);
-            }
-        }
-    }
-
-    public boolean hayColisionTanqueConTanque(int posX, int posY, int Ancho, int Alto) {
+    public boolean hayColisionTanqueConTanque(int id) {
         boolean flag = false;
-        auxGral = new Rectangle(posX, posY, Ancho, Alto);
-        if (auxGral.intersects(rTanque1) && posX != p1.getTanque().getPosX() && posY != p1.getTanque().getPosY()) {
+        auxGral = obtenerTanque(id);
+        if (auxGral.intersects(rTanque1) && id != p1.getsId()) {
             flag = true;
         }
-        if (auxGral.intersects(rTanque2) && posX != p2.getTanque().getPosX() && posY != p2.getTanque().getPosY()) {
+        if (auxGral.intersects(rTanque2) && id != p2.getsId()) {
             flag = true;
         }
 
         for (int j = 0; j < enemies.length; j++) {
-            if (auxGral.intersects(rEnemy[j]) && posX != enemies[j].getTanque().getPosX()
-                    && posY != enemies[j].getTanque().getPosY() && enemies[j].isVivo()) {
+            if (auxGral.intersects(rEnemy[j]) && id != enemies[j].getsId()) {
                 flag = true;
             }
         }
+        /*if (flag == true) {
+        flag = sePuedeColisionar(id);
+        }*/
+
         return flag;
     }
 
-    public boolean hayColisionBalaBala(int posX, int posY, int Ancho, int Alto) {
+    /* public boolean sePuedeColisionar(int id) {
+    boolean flag = true;
+    String direccion;
+    if (p1.getTanque().getId() == id) {
+    auxGral = rTanque1;
+    direccion=p1.getTanque().getDireccion();
+    }
+    if (p2.getTanque().getId() == id) {
+    auxGral = rTanque2;
+    direccion=p2.getTanque().getDireccion();
+    }
+    for (int j = 0; j < enemies.length; j++) {
+    if (enemies[j].getTanque().getId() == id) {
+    auxGral = rEnemy[j];
+    direccion=enemies[j].getTanque().getDireccion();
+    }
+    }
+    if (direccion.equals("norte") && (hayColisionConLadrillo(posX, posY, Alto + 4, Ancho)
+    || hayColisionConAgua(posX, posY, Alto + 4, Ancho)
+    || hayColisionConAcero(posX, posY, Alto + 4, Ancho))) {
+    return false;
+
+    }
+    if (direccion.equals("sur") && (hayColisionConLadrillo(posX, posY - 4, Alto + 4, Ancho)
+    || hayColisionConAgua(posX, posY - 4, Alto, Ancho)
+    || hayColisionConAcero(posX, posY - 4, Alto, Ancho))) {
+    return false;
+
+    }
+    if (direccion.equals("este") && (hayColisionConLadrillo(posX, posY, Alto, Ancho + 4)
+    || hayColisionConAgua(posX, posY, Alto, Ancho + 4)
+    || hayColisionConAcero(posX, posY, Alto, Ancho + 4))) {
+    return false;
+
+    }
+    if (direccion.equals("oeste") && (hayColisionConLadrillo(posX - 4, posY, Alto, Ancho + 4)
+    || hayColisionConAgua(posX - 4, posY, Alto, Ancho + 4)
+    || hayColisionConAcero(posX - 4, posY, Alto, Ancho + 4))) {
+    return false;
+
+    }
+    return flag;
+    }*/
+    public boolean hayColisionBalaConBala(int id) {
         boolean flag = false;
 
-        rBala = new Rectangle(posX, posY, Ancho, Alto);
+        rBala = obtenerBala(id);
 
         if (p1.getDisparo() && p1.isVivo()) {
             auxGral.setRect(p1.getTanque().getBala().getPosX(), p1.getTanque().getBala().getPosY(), p1.getTanque().getBala().getAncho(), p1.getTanque().getBala().getAlto());
@@ -266,10 +354,10 @@ public class colisiones {
         }
 
         for (int j = 0; j < enemies.length; j++) {
-            if (enemies[j].getDisparo() && enemies[j].isVivo() ) {
+            if (enemies[j].getDisparo() && enemies[j].isVivo()) {
                 auxGral.setRect(enemies[j].getTanque().getBala().getPosX(), enemies[j].getTanque().getBala().getPosY(), enemies[j].getTanque().getBala().getAncho(), enemies[j].getTanque().getBala().getAlto());
                 if (rBala.intersects(auxGral) && rBala.getX() != auxGral.getX() && rBala.getY() != auxGral.getY()) {
-                    System.out.println("entre enemy"+j);
+                    System.out.println("entre enemy" + j);
                     enemies[j].endBala();
                     enemies[j].setDisparo(false);
                     return true;
@@ -278,5 +366,41 @@ public class colisiones {
         }
 
         return flag;
+    }
+
+    private Rectangle obtenerTanque(int id) {
+        Rectangle auxiliar;
+        auxiliar = new Rectangle();
+
+        if (p1.getsId() == id) {
+            auxiliar = rTanque1;
+        }
+        if (p2.getsId() == id) {
+            auxiliar = rTanque2;
+        }
+        for (int j = 0; j < enemies.length; j++) {
+            if (enemies[j].getsId() == id) {
+                auxiliar = rEnemy[j];
+            }
+        }
+        return auxiliar;
+    }
+
+    private Rectangle obtenerBala(int id) {
+        Rectangle auxiliar;
+        auxiliar = new Rectangle();
+        if (p1.getsId() == id) {
+            auxiliar.setRect(p1.getTanque().getBala().getPosX(), p1.getTanque().getBala().getPosY(), p1.getTanque().getBala().getAncho(), p1.getTanque().getBala().getAlto());
+        }
+        if (p2.getsId() == id) {
+            auxiliar.setRect(p2.getTanque().getBala().getPosX(), p2.getTanque().getBala().getPosY(), p2.getTanque().getBala().getAncho(), p2.getTanque().getBala().getAlto());
+        }
+        for (int j = 0; j < enemies.length; j++) {
+            if (enemies[j].getsId() == id) {
+                auxiliar.setRect(enemies[j].getTanque().getBala().getPosX(), enemies[j].getTanque().getBala().getPosY(), enemies[j].getTanque().getBala().getAncho(), enemies[j].getTanque().getBala().getAlto());
+            }
+        }
+
+        return auxiliar;
     }
 }

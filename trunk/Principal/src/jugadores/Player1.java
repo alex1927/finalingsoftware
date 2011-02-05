@@ -16,8 +16,9 @@ public class Player1 extends Player {
     private boolean hiloVivo;
     static int esperarMuerte=5000;
 
-    public Player1() {
-        Tanque =new tanque(true);
+    public Player1(int id) {
+        super.Players(id);
+        Tanque =new tanque();
         img = new ImageIcon("tanque" + Tanque.getDireccion() + ".gif");
         Tanque.setPosX(posIniX);
         Tanque.setPosY(posIniY);
@@ -96,31 +97,34 @@ public class Player1 extends Player {
             }
     }
 
-    public void keyPressed(KeyEvent e) {
-        if(!esperandoNacer){
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_UP:
-                    Tanque.setDireccion("norte");
-                    getTanque().setVelocidad(2);
-                    break;
-                case KeyEvent.VK_LEFT:
-                    Tanque.setDireccion("este");
-                    getTanque().setVelocidad(2);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    Tanque.setDireccion("oeste");
-                    getTanque().setVelocidad(2);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    Tanque.setDireccion("sur");
-                    getTanque().setVelocidad(2);
-                    break;
-                case KeyEvent.VK_SPACE:
-                    if (!getDisparo()) {
-                        setDisparo(true);
-                        Tanque.disparar();
-                    }
-                    break;
+public void keyPressed(KeyEvent e) {
+        if (!esperandoNacer) {
+            if (mover() && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
+                    && !Tanque.choqueLimiteSur() && !Tanque.choqueLimiteOeste()) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP:
+                        Tanque.setDireccion("norte");
+                        getTanque().setVelocidad(2);
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        Tanque.setDireccion("este");
+                        getTanque().setVelocidad(2);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        Tanque.setDireccion("oeste");
+                        getTanque().setVelocidad(2);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        Tanque.setDireccion("sur");
+                        getTanque().setVelocidad(2);
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        if (!getDisparo()) {
+                            setDisparo(true);
+                            Tanque.disparar();
+                        }
+                        break;
+                }
             }
         }
     }
@@ -139,6 +143,7 @@ public class Player1 extends Player {
     public void run() {
         while (true) {
             while (esperandoNacer && vidas>=0){
+                System.out.println("estoy muerto 1");
                 try {
                     sleep(esperarMuerte +100);
                 } catch (InterruptedException ex) {
@@ -146,7 +151,7 @@ public class Player1 extends Player {
                 }
             }
             if (mover() && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
-                    && !Tanque.choqueLimiteSur() && !Tanque.choqueLimiteOeste()) {                
+                    && !Tanque.choqueLimiteSur() && !Tanque.choqueLimiteOeste()) {
                 this.moverse();
             } else {                
                 this.antiColisiones();

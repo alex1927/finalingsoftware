@@ -15,8 +15,9 @@ public class enemigos extends Players {
     private long controlDisparo;
     private long regularCambioDireccion;
 
-    public enemigos(int ubicacion) {
-        Tanque =new tanque(false);
+    public enemigos(int id,int ubicacion){
+        super.Players(id);
+        Tanque =new tanque();
         tipo = ubicacion;
         controlDisparo = System.currentTimeMillis();
         posX = new int[3];
