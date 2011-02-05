@@ -53,8 +53,7 @@ public class enemigos extends Players {
     @Override
     public void run() {
         while (true) {
-            if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
-                    && !getTanque().choqueLimiteEste() && !getTanque().choqueLimiteOeste() && !getTanque().choqueLimiteNorte()
+            if (mover() && !getTanque().choqueLimiteEste() && !getTanque().choqueLimiteOeste() && !getTanque().choqueLimiteNorte()
                     && !getTanque().choqueLimiteSur()) {
                 getTanque().setDireccion(cambiarDireccion(getTanque().getDireccion()));//AAAAAAAAAAAAA
                 this.moverse();

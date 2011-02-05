@@ -343,7 +343,7 @@ public class escenario {
     }
 
     public void crearEnemigo() {
-        if (this.enemigosCreados < this.enemy.length) {
+        if (this.enemigosCreados < this.enemy.length && enemy[enemigosCreados].mover()){
             enemy[enemigosCreados].start();
             enemy[enemigosCreados].setVivo(true);
             enemigosCreados++;
