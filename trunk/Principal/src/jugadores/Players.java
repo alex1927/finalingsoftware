@@ -1,4 +1,5 @@
 package jugadores;
+import escenario.Semaforo;
 import escenario.colisiones;
 import javax.swing.ImageIcon;
 
@@ -10,12 +11,14 @@ public class Players extends Thread {
     protected ImageIcon img;
     protected colisiones monitor;
     private boolean vivo;
+    private Semaforo excMutua;
 
     public Players() {
         
     }
 
     public void Players(colisiones monitor) {
+        excMutua = new Semaforo(1);
         this.monitor = monitor;
     }
 
@@ -40,6 +43,7 @@ public class Players extends Thread {
     }
 
     public void controlBala() {
+        excMutua.Wait();
         if (getDisparo()) {
             if (monitor.hayColisionConLadrillo(
                     getTanque().getBala().getPosX(),
@@ -96,6 +100,7 @@ public class Players extends Thread {
             
         }
     }
+        excMutua.Signal();
     }
 
     public void endBala() {
@@ -151,5 +156,9 @@ public class Players extends Thread {
                 if (getTanque().getDireccion().equals("este")) {
                     getTanque().setPosX(getTanque().getPosX() + 3);
                 }
+    }
+
+    public boolean mover(){
+        return monitor.mover(getTanque().getPosX(),getTanque().getPosY(),getTanque().getAncho(),getTanque().getAlto());
     }
 }

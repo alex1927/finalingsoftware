@@ -144,8 +144,7 @@ public class Player2 extends Player {
                     Logger.getLogger(Player1.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            if (monitor.mover(getTanque().getPosX(), getTanque().getPosY(), getTanque().getAlto(), getTanque().getAncho())
-                    && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
+            if (mover() && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
                     && !Tanque.choqueLimiteSur() && !Tanque.choqueLimiteOeste()) {
                 this.moverse();
             } else {
