@@ -51,11 +51,11 @@ public class escenario {
     public escenario() {
         enemigosCreados = 0;
         eagle = new aguila();
-        jugador1 = new Player1();
-        jugador2 = new Player2();
+        jugador1 = new Player1(101);
+        jugador2 = new Player2(102);
         enemy = new enemigos[18];
         for (int i = 0; i < enemy.length; i++) {
-            enemy[i] = new enemigos(i % 3);
+            enemy[i] = new enemigos(i,i % 3);
         }
         steelList = new LinkedList();
         brickList = new LinkedList();

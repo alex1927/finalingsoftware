@@ -15,8 +15,7 @@ public class tanque implements limites {
     private bala bullet;
     private ImageIcon img;
 
-    public tanque(boolean amigo) {
-        this.amigo = amigo;
+    public tanque() {
         direccion = "norte";
         velocidad = 0;
         posX = 0;
@@ -24,6 +23,9 @@ public class tanque implements limites {
         img = new ImageIcon("bala.gif");
 
     }
+
+  
+
 
     public boolean isAmigo() {
         return amigo;

@@ -16,8 +16,9 @@ public class Player2 extends Player {
     private boolean hiloVivo;
     static int esperarMuerte=5000;
 
-    public Player2() {
-        Tanque =new tanque(true);
+    public Player2(int id) {
+        super.Players(id);
+        Tanque =new tanque(); 
         img = new ImageIcon("tanque2" + Tanque.getDireccion() + ".gif");
         Tanque.setPosX(posIniX);
         Tanque.setPosY(posIniY);
@@ -96,31 +97,34 @@ public class Player2 extends Player {
 
     }
 
-    public void keyPressed(KeyEvent e) {
+public void keyPressed(KeyEvent e) {
         if (!esperandoNacer) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    Tanque.setDireccion("norte");
-                    getTanque().setVelocidad(2);
-                    break;
-                case KeyEvent.VK_A:
-                    Tanque.setDireccion("este");
-                    getTanque().setVelocidad(2);
-                    break;
-                case KeyEvent.VK_D:
-                    Tanque.setDireccion("oeste");
-                    getTanque().setVelocidad(2);
-                    break;
-                case KeyEvent.VK_S:
-                    Tanque.setDireccion("sur");
-                    getTanque().setVelocidad(2);
-                    break;
-                case KeyEvent.VK_H:
-                    if (!getDisparo()) {
-                        setDisparo(true);
-                        Tanque.disparar();
-                    }
-                    break;
+            if (mover() && !Tanque.choqueLimiteNorte() && !Tanque.choqueLimiteEste()
+                    && !Tanque.choqueLimiteSur() && !Tanque.choqueLimiteOeste()) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_W:
+                        Tanque.setDireccion("norte");
+                        getTanque().setVelocidad(2);
+                        break;
+                    case KeyEvent.VK_A:
+                        Tanque.setDireccion("este");
+                        getTanque().setVelocidad(2);
+                        break;
+                    case KeyEvent.VK_D:
+                        Tanque.setDireccion("oeste");
+                        getTanque().setVelocidad(2);
+                        break;
+                    case KeyEvent.VK_S:
+                        Tanque.setDireccion("sur");
+                        getTanque().setVelocidad(2);
+                        break;
+                    case KeyEvent.VK_H:
+                        if (!getDisparo()) {
+                            setDisparo(true);
+                            Tanque.disparar();
+                        }
+                        break;
+                }
             }
         }
     }
@@ -138,6 +142,8 @@ public class Player2 extends Player {
     public void run() {
         while (true) {
             while (esperandoNacer && vidas>=0){
+                                System.out.println("estoy muerto 2");
+
                 try {
                     sleep(esperarMuerte +100);
                 } catch (InterruptedException ex) {
