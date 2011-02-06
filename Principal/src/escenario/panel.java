@@ -33,8 +33,7 @@ public class panel extends JPanel implements Runnable{
         }
         
         esc.actualizoEscenario();
-        esc.controlBala();
-        esc.limiteBala();
+
         esc.llegoFinDeJuego();
         repaint();        
         try {

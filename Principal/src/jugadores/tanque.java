@@ -12,7 +12,7 @@ public class tanque implements limites {
     private int posX;
     private int posY;
     private String direccion;
-    private bala bullet;
+
     private ImageIcon img;
 
     public tanque() {
@@ -53,11 +53,7 @@ public class tanque implements limites {
         this.direccion = direccion;
     }
 
-    public void dibujar(Graphics g) {
-        //bullet.dibujar(g);
-        img = new ImageIcon("bala.gif");
-        img.paintIcon(null, g, bullet.getPosX(), bullet.getPosY());
-    }
+
 
     public int getVelocidad() {
         return velocidad;
@@ -99,24 +95,5 @@ public class tanque implements limites {
         return this.getPosX() + this.getAlto() > OESTE;
     }
 
-    public void disparar() {
-        if(this.getDireccion().equals("sur")){
-            bullet = new bala(getDireccion(),getPosX()+11, getPosY()+31);
-        }
-        if(this.getDireccion().equals("norte")){
-            bullet = new bala(getDireccion(),getPosX()+11, getPosY()-9);
-        }
-        if(this.getDireccion().equals("este")){
-            bullet = new bala(getDireccion(),getPosX()-9, getPosY()+11);
-        }
-        if(this.getDireccion().equals("oeste")){
-            bullet = new bala(getDireccion(),getPosX()+31, getPosY()+11);
-        }
 
-        bullet.start();
-    }
-
-    public bala getBala(){
-        return bullet;
-    }
 }
