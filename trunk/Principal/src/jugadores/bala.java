@@ -1,5 +1,6 @@
 package jugadores;
 
+import escenario.colisiones;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +13,21 @@ public class bala extends Thread implements limites {
     private int velocidad;
     private String direccion;
     private boolean flag;
+    private colisiones monitorBala;
+    private int id;
+    private boolean vivo;
+
+    public bala(){
+        vivo = false;
+    }
+
+    public boolean isVivo() {
+        return vivo;
+    }
+
+    public void setVivo(boolean vivo) {
+        this.vivo = vivo;
+    }
 
     public boolean getFlag() {
         return flag;
@@ -27,6 +43,15 @@ public class bala extends Thread implements limites {
         this.direccion = direccion;
         this.posX = posX;
         this.posY = posY;
+    }
+
+    public bala(colisiones monitorBala, int id) {
+        this.bala(monitorBala, id);
+    }
+
+    public void bala(colisiones monitorBala, int id) {
+        this.monitorBala = monitorBala;
+        this.id=id;
     }
 
     public int getPosX() {
@@ -61,11 +86,11 @@ public class bala extends Thread implements limites {
         return ALTO;
     }
 
-    public void setVelBala(int velocidad) {
+    public void setVelocidad(int velocidad) {
         this.velocidad = velocidad;
     }
 
-    public int getVelBala() {
+    public int getVelocidad() {
         return velocidad;
     }
 
@@ -85,53 +110,43 @@ public class bala extends Thread implements limites {
         return this.getPosX() + this.getAncho() > OESTE;
     }
 
-    @Override
-    public void run() {
+     public void moverse(){
         if (getDireccion().equals("norte")) {
-            while (!choqueLimiteNorte()) {
-                this.setPosY(this.getPosY() - this.getVelBala());
-                try {
-                    Thread.currentThread().sleep(50);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            setFlag(true);
+            setPosY(getPosY() - getVelocidad());
         }
         if (getDireccion().equals("sur")) {
-            while (!choqueLimiteSur()) {
-                this.setPosY(this.getPosY() + this.getVelBala());
-                try {
-                    Thread.currentThread().sleep(50);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            setFlag(true);
-        }
-        if (getDireccion().equals("este")) {
-            while (!choqueLimiteEste()) {
-                this.setPosX(this.getPosX() - this.getVelBala());
-                try {
-                    Thread.currentThread().sleep(50);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            setFlag(true);
+            setPosY(getPosY() + getVelocidad());
         }
         if (getDireccion().equals("oeste")) {
-            while (!choqueLimiteOeste()) {
-                this.setPosX(this.getPosX() + this.getVelBala());
-                try {
-                    Thread.currentThread().sleep(50);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(bala.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            setFlag(true);
+            setPosX(getPosX() + getVelocidad());
         }
-        Thread.currentThread().stop();
+        if (getDireccion().equals("este")) {
+            setPosX(getPosX() - getVelocidad());
+        }
+    }
+
+    public boolean moverBala( int id){
+        return monitorBala.moverBala(id);
+    }
+
+    @Override
+    public void run() {
+                while (true) {
+            if (moverBala(id) && !choqueLimiteEste() && !choqueLimiteOeste() && !choqueLimiteNorte()
+                    && !choqueLimiteSur()) {
+                this.moverse();
+            } else {
+                this.setVivo(false);
+                stop();
+            }
+
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Player2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
 
     }
 }

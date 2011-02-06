@@ -46,12 +46,14 @@ public class escenario {
     private ImageIcon gameOver;
     private enemigos enemy[];
     private int enemigosCreados;
-    private int pruebaAgu;
+private Semaforo excMutua;
+
 
     public escenario() {
+        excMutua=new Semaforo(1);
         enemigosCreados = 0;
         eagle = new aguila();
-        jugador1 = new Player1(101);
+        jugador1 = new Player1(101 );
         jugador2 = new Player2(102);
         enemy = new enemigos[18];
         for (int i = 0; i < enemy.length; i++) {
@@ -68,7 +70,7 @@ public class escenario {
         cuentoElementos();
         creoElementos();
         setPosiciones();
-        actualizoEscenario();
+        inicioEscenario();
         jugador1.start();
         jugador2.start();
         crearEnemigo();
@@ -100,10 +102,10 @@ public class escenario {
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, 2, 2, 2, 2, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, 2, 4, 4, 2, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, 2, 4, 4, 2, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 2, 2, 2, 2, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 2, 4, 4, 2, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 2, 4, 4, 2, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, INTOCABLES, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     }
 
     public final void generarEscenarioAleatorio() {
@@ -202,8 +204,17 @@ public class escenario {
 
     }
 
+        public void inicioEscenario() {
+        monitor = new colisiones(this.brickList, this.steelList, this.waterList, jugador1, jugador2, enemy,excMutua);
+        jugador1.Players(monitor);
+        jugador2.Players(monitor);
+        for (int i = 0; i < enemy.length; i++) {
+            enemy[i].Players(monitor);
+        }
+    }
+
     public void actualizoEscenario() {
-        monitor = new colisiones(this.brickList, this.steelList, this.waterList, jugador1, jugador2, enemy);
+        monitor.colisiones(this.brickList, this.steelList, this.waterList, jugador1, jugador2, enemy);
         jugador1.Players(monitor);
         jugador2.Players(monitor);
         for (int i = 0; i < enemy.length; i++) {
@@ -212,7 +223,7 @@ public class escenario {
     }
 
     public void dibujarInicio(Graphics g) {
-
+    excMutua.Wait();
         iterSteel = steelList.listIterator();
         iterBrick = brickList.listIterator();
         iterWater = waterList.listIterator();
@@ -269,7 +280,7 @@ public class escenario {
             break;
         }
         eagle.dibujar(g);
-
+        excMutua.Signal();
     }
 
     /***************************************************************************
@@ -293,29 +304,6 @@ public class escenario {
     /***************************************************************************
      **************************** Control de balas *****************************
      ***************************************************************************/
-    public void controlBala() {
-        jugador1.controlBala();
-        jugador2.controlBala();
-        for (int i = 0; i < enemy.length; i++) {
-            enemy[i].controlBala();
-        }
-    }
-
-    public void endBala() {
-        jugador1.endBala();
-        jugador2.endBala();
-        for (int i = 0; i < enemy.length; i++) {
-            enemy[i].endBala();
-        }
-    }
-
-    public void limiteBala() {
-        jugador1.limiteBala();
-        jugador2.limiteBala();
-        for (int i = 0; i < enemy.length; i++) {
-            enemy[i].limiteBala();
-        }
-    }
 
     public void llegoFinDeJuego() {
         boolean enemigoTocoAguila = true;

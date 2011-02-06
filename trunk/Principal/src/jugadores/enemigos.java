@@ -46,7 +46,7 @@ public class enemigos extends Players {
         img = new ImageIcon("tanqueE" +getTipo()+ Tanque.getDireccion()+ ".gif");
         img.paintIcon(null, g, posX, posY);
         if (getDisparo()) {
-            Tanque.dibujar(g);
+            dibujar(g);
         }
 
     }
@@ -65,10 +65,10 @@ public class enemigos extends Players {
 
             if (!getDisparo() && controlDisparo + 3000 < System.currentTimeMillis()) {
                 setDisparo(true);
-                getTanque().disparar();
+                disparar();
                 controlDisparo = System.currentTimeMillis();
             }
-
+            setDisparo(bullet.isVivo());
             try {
                 Thread.sleep(50);
             } catch (InterruptedException ex) {

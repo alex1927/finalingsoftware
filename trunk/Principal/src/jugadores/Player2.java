@@ -71,7 +71,7 @@ public class Player2 extends Player {
         img = new ImageIcon("tanque2" + Tanque.getDireccion() + ".gif");
         img.paintIcon(null, g, posX, posY);
         if (getDisparo()) {
-            Tanque.dibujar(g);
+            dibujar(g);
         }
     }
 
@@ -121,7 +121,7 @@ public void keyPressed(KeyEvent e) {
                     case KeyEvent.VK_H:
                         if (!getDisparo()) {
                             setDisparo(true);
-                            Tanque.disparar();
+                            disparar();
                         }
                         break;
                 }
@@ -156,6 +156,7 @@ public void keyPressed(KeyEvent e) {
             } else {
                 this.antiColisiones();
             }
+            setDisparo(bullet.isVivo());
             try {
                 Thread.sleep(50);
             } catch (InterruptedException ex) {
