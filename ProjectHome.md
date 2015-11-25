@@ -1,0 +1,1 @@
+El juego es el clasico battle city de NEs, echo en Java, para entrega final de un proyecto de la materia Ingenieria en software de la Universidad Nacional de Cordoba, de la facultad de ciencias exactas fisicas y naturales (FCEFyN).
